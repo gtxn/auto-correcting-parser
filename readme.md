@@ -1,0 +1,2 @@
+## Correction
+We need to create a set I, a set of pairs of nonterminals and minimal pure insertion correcions. The file responsible for this is `create_I.py` and the resultant I is saved in the file `I.json`

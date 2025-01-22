@@ -1,24 +1,5 @@
 import re
 
-# def save_grammar(grammar, filename_to_save):
-#   with open(filename_to_save, 'w') as f:
-#     for key, rules in grammar.items():
-#       f.write(f"{key}: ")
-
-#       rules_copy = rules
-#       # If rules are in list form, join them into string first
-#       if rules and type(rules[0]) == list:
-#         rules_copy = rules.copy()
-#         for i, rule in enumerate(rules):
-#           rules_copy[i] = ' '.join(rule)
-      
-#       if len(rules_copy) == 1:
-#         f.write(f"{rules_copy[0]}")
-#       else:  
-#         f.write(f"\n\t| {'\n\t| '.join(rules_copy)}")
-
-#       f.write('\n\n')
-
 def load_grammar_from_file(file):
   grammar = {}
   current_non_terminal = ''
