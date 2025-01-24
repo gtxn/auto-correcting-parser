@@ -1,4 +1,5 @@
 from terminals import *
+from collections import defaultdict
 
 operator_map = {
   '=': 'ASSIGN',
@@ -26,6 +27,7 @@ class Lexer:
     self.position = -1
     self.tab_spaces = tab_spaces
     self.prev_f = False # To tokenize f-strings
+    self.values_appeared = defaultdict(list) # Values of all NAME and NUMBER that appear in code
     self.step()
 
   # Steps to next token
@@ -51,7 +53,6 @@ class Lexer:
 
           # Step from opening delimiter
           self.step()
-          print(f"curr char: {self.current_char and self.current_char != delimiter}")
 
           # Go through whole string
           while self.current_char and self.current_char != delimiter:
@@ -71,7 +72,9 @@ class Lexer:
           self.tokens.append(self.process_string())
 
       elif self.current_char in DIGITS:
-        self.tokens.append(("NUMBER", self.number()))
+        num = self.number()
+        self.tokens.append(("NUMBER", num))
+        self.values_appeared['NUMBER'].append(num)
       
       elif self.current_char in LETTERS or self.current_char == "_":
         self.prev_f = self.current_char == 'f' or self.current_char == 'F'
@@ -89,7 +92,16 @@ class Lexer:
 
     # self.tokens.append(('NEWLINE', 'NEWLINE'))
     self.tokens.append(('ENDMARKER', 'ENDMARKER'))
-    return self.tokens
+    return self.tokens, self.values_appeared
+  
+  def get_id_mapped_tokens(self):
+    tokens_with_id = []
+    value_map = defaultdict()
+    for i, t in enumerate(self.tokens):
+      tokens_with_id.append((t[0], i))
+      value_map[i] = t[1]
+
+    return tokens_with_id, value_map
 
   def skip_comment(self):
     while self.current_char and self.current_char != "\n":
@@ -112,6 +124,8 @@ class Lexer:
       return (id_str, id_str)
     if id_str in PREPROCESS_TOKENS:
       return (id_str, id_str)
+    
+    self.values_appeared['NAME'].append(id_str)
     return ("NAME", id_str)
 
   # TODO: instead of (operator, +) do (PLUS, +) so parser only needs to look at first element
@@ -199,5 +213,4 @@ class Lexer:
     else:
       source = source + ' NEWLINE '
 
-    print(source)
     self.source = source

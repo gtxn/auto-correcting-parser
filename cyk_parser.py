@@ -11,9 +11,9 @@ class CYK_Parser():
     self.correction_service = Correction()
 
     # Mapping from productions to heads
-    self.rev_grammar = self.reverse_parse()
+    self.rev_grammar = self.get_reverse_grammar()
 
-  def reverse_parse(self):
+  def get_reverse_grammar(self):
     reversed_mapping = {}
     for head, productions in self.grammar.items():
       for production in productions:
@@ -62,7 +62,7 @@ class CYK_Parser():
     T = [[defaultdict(list) for _ in range(len_input+1)] for _ in range(len_input+1)]
     back = [[defaultdict(list) for _ in range(len_input+1)] for _ in range(len_input)]
     
-    for i, token in enumerate(to_parse):
+    for i, (token, token_id) in enumerate(to_parse):
       for head, productions in self.grammar.items():
         for production in productions:
           if len(production.split(' ')) == 1:

@@ -1,5 +1,6 @@
 import re
 from copy import deepcopy
+from uuid import uuid4
 
 class Correction:
   def __init__(self):
@@ -25,11 +26,11 @@ class Correction:
       if op == 'd':
         code_copy.pop(ind)
       elif op == 'i':
-        to_insert = corr_arr[2]
+        to_insert = (corr_arr[2], uuid4())
         code_copy = code_copy[:ind] + [to_insert] + code_copy[ind:]
       else:
         to_replace = corr_arr[2]
-        code_copy[ind] = to_replace
+        code_copy[ind] = (to_replace, uuid4())
     
     return code_copy
 

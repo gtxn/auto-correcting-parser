@@ -1,23 +1,34 @@
 import json
 from lexer import Lexer
 from cyk_parser import CYK_Parser
+from reverse_parser import Reverse_Parser
+
 from utils import print_table
+from collections import defaultdict
 
 with open("./file_to_test.py") as f:
   conts = f.read()
   lexer = Lexer(conts)
   parser = CYK_Parser('./cnf_grammar.gram')
+  rev_parser = Reverse_Parser(tab_spaces=2)
 
-  tokens = lexer.tokenise()
-
-  to_parse = [t for (t, val) in tokens]
-  T, back = parser.parse_with_err_correction(to_parse)
-
-  print(f'Old parsed: {to_parse}') 
+  # LEXING
+  tokens, values_appeared = lexer.tokenise()
+  tokens_with_id, value_map = lexer.get_id_mapped_tokens()
   
-  with open('./output.json', 'w') as f2:
-    json.dump(T, f2)
+  # PARSE WITH ERR CORRECTION
+  T, back = parser.parse_with_err_correction(tokens_with_id)
+  print(f'CODE TO CORRECT\n{tokens_with_id}')
+  print()
 
-  corrected_code = parser.get_corrected_code(to_parse, T)
+  corrected_code = parser.get_corrected_code(tokens_with_id, T)
 
-  print(f"Corrected: {corrected_code}")
+  T_corrected, back_corrected = parser.parse(corrected_code)
+
+  corrected_tree = parser.get_parse_tree(corrected_code, back_corrected)
+  print(f'CORRECTED TREE\n{corrected_tree}')
+  print()
+
+  # REVERSE PARSE -- get code from tree
+  rev_code = rev_parser.reverse_parse(corrected_tree, value_map, values_appeared)
+  print(f'CORRECTED CODE\n{rev_code}')
