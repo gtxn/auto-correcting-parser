@@ -1,6 +1,9 @@
 from lexer import Lexer
+import sys
 
-with open("./file_to_test.py") as f:
+filename = sys.argv[1]
+
+with open(filename) as f:
   conts = f.read()
   lexer = Lexer(conts)
   tokens = lexer.tokenise()

@@ -1,4 +1,4 @@
-from uuid import UUID
+# Reverse parser takes a parse tree and generates code from it
 class Reverse_Parser():
   def __init__(self, tab_spaces):
     self.tab_spaces = tab_spaces

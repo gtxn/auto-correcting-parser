@@ -1,15 +1,15 @@
-import json
 from lexer import Lexer
 from cyk_parser import CYK_Parser
 from reverse_parser import Reverse_Parser
 
-from utils import print_table
-from collections import defaultdict
+import sys
 
-with open("./file_to_test.py") as f:
+filename = sys.argv[1]
+
+with open(filename) as f:
   conts = f.read()
   lexer = Lexer(conts)
-  parser = CYK_Parser('./cnf_grammar.gram')
+  parser = CYK_Parser('./cnf_grammar.gram', fast_mode=True)
   rev_parser = Reverse_Parser(tab_spaces=2)
 
   # LEXING
@@ -27,6 +27,8 @@ with open("./file_to_test.py") as f:
 
   corrected_tree = parser.get_parse_tree(corrected_code, back_corrected)
   print(f'CORRECTED TREE\n{corrected_tree}')
+  print()
+  print(f'CORRECTION\n{T[0][-1]["start"][0]}')
   print()
 
   # REVERSE PARSE -- get code from tree

@@ -55,8 +55,8 @@ class Correction:
     # Implements a swap while keeping semantics of correction
     def swap_elem(correction_arr, i, j):
       elem1, elem2 = correction_arr[i].split('|'), correction_arr[j].split('|')
-      op1, ind1 = elem1[0], elem1[1]
-      op2, ind2 = elem2[0], elem2[1]
+      op1, ind1 = elem1[0], int(elem1[1])
+      op2, ind2 = elem2[0], int(elem2[1])
 
       if op1 == 'r' and op2 == 'r':
         correction_arr[i], correction_arr[j] = correction_arr[j], correction_arr[i]
@@ -70,8 +70,14 @@ class Correction:
         correction_arr[i], correction_arr[j] = self.offset_single_correction(correction_arr[j], 1), correction_arr[i]
       
       elif op1 == 'i' and op2 == 'r':
+        # if (ind1 == 8 and ind2 == 17):
+        #   print(self.offset_single_correction(correction_arr[j], -1))
+
         if ind1 == ind2:
-          correction_arr.pop(i)
+          # Directly insert what we were going to replace
+          to_replace = elem2[2]
+          correction_arr.pop(j)
+          correction_arr[i] = '|'.join([op1, ind1, to_replace])
         elif ind2 > ind1:
           correction_arr[i], correction_arr[j] = self.offset_single_correction(correction_arr[j], -1), correction_arr[i]
         else:

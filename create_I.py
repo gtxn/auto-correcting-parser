@@ -1,7 +1,7 @@
 import json
 from collections import defaultdict
 from utils import load_grammar_from_file
-from terminal_productions import terminal_productions
+from utils.terminal_productions import terminal_productions
 
 grammar = load_grammar_from_file('./cnf_grammar.gram')
 terminals = terminal_productions.values()

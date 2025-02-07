@@ -128,7 +128,6 @@ class Lexer:
     self.values_appeared['NAME'].append(id_str)
     return ("NAME", id_str)
 
-  # TODO: instead of (operator, +) do (PLUS, +) so parser only needs to look at first element
   def operator(self):
     op = self.current_char
     self.step()
