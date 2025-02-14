@@ -9,16 +9,20 @@ filename = sys.argv[1]
 with open(filename) as f:
   conts = f.read()
   lexer = Lexer(conts)
-  parser = CYK_Parser('./cnf_grammar.gram', fast_mode=True)
+  parser = CYK_Parser('./cnf_grammar.gram', fast_mode=True, beam_search_n=20)
   rev_parser = Reverse_Parser(tab_spaces=2)
 
   # LEXING
+  print('Lexing...')
   tokens, values_appeared = lexer.tokenise()
   tokens_with_id, value_map = lexer.get_id_mapped_tokens()
+  print(f'CODE TO CORRECT\n{tokens_with_id}')
+  print()
   
   # PARSE WITH ERR CORRECTION
-  T, back = parser.parse_with_err_correction(tokens_with_id)
-  print(f'CODE TO CORRECT\n{tokens_with_id}')
+  # T, back = parser.parse_with_err_correction(tokens_with_id)
+  print('Parsing...')
+  T, T_probs = parser.parse_with_err_correction_beam(tokens_with_id)
   print()
 
   corrected_code = parser.get_corrected_code(tokens_with_id, T)

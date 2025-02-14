@@ -1,8 +1,12 @@
 import re
+from collections import defaultdict
 
 def load_grammar_from_file(file):
   grammar = {}
   current_non_terminal = ''
+
+  rule_counts = defaultdict(int)
+  lhs_counts = defaultdict(int)
 
   with open(file, 'r') as f:
     conts = f.read().split('\n')
@@ -13,12 +17,14 @@ def load_grammar_from_file(file):
 
       line_to_consider = line.strip()
       
+      rule = ''
       if re.match(r'(\w+):', line_to_consider):
         split_colon_arr = line_to_consider.split(':')
 
         current_non_terminal = split_colon_arr[0].strip()
         if (split_colon_arr[1]):
-          grammar[current_non_terminal] = [':'.join(split_colon_arr[1:]).strip()]
+          rule = ':'.join(split_colon_arr[1:]).strip()
+          grammar[current_non_terminal] = [rule]
 
       elif (line_to_consider.startswith('|')):
         rule = line_to_consider[1:].strip()
@@ -26,8 +32,16 @@ def load_grammar_from_file(file):
           grammar[current_non_terminal] = [rule]
         else:
           grammar[current_non_terminal].append(rule)
-  
-    return grammar
+
+      rule_counts[(current_non_terminal, rule)] += 1
+      lhs_counts[current_non_terminal] += 1
+
+    rule_probabilities = {
+      lhs: {rhs: rule_counts[(lhs, rhs)] / lhs_counts[lhs] for (lhs_rule, rhs) in rule_counts if lhs_rule == lhs}
+      for lhs in lhs_counts
+    }
+
+    return rule_probabilities
 
 def deepcopy(grammar_obj):
   copied = {}
