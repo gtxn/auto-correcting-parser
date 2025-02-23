@@ -197,19 +197,37 @@ class Lexer:
       
       # DEDENT
       if current_line_indent < current_indent_level:
-        try:
-          logical_lines[i] = ' DEDENT ' + logical_line
-          indent_stack = indent_stack[0:indent_stack.index(current_line_indent)+1]
-        except:
-          raise Exception(f"INDENTATION ERROR at '{logical_line}' on logical line {i}")
+        num_dedent = 0
+        while current_line_indent < current_indent_level:
+          try:
+            num_dedent += 1
+            indent_stack.pop()
+            current_indent_level = indent_stack[-1]
+          except:
+            raise Exception(f"INDENTATION ERROR at '{logical_line}' on logical line {i}")
+        
+        logical_lines[i] = ' DEDENT '*num_dedent + logical_line
 
-    source = " NEWLINE ".join(logical_lines)
+    # Link all DEDENTs together 
+    new_logical_lines = []
+    i = 0
+    while i<len(logical_lines):
+      curr_logical_line = logical_lines[i]
+      while logical_lines[i][-1] == 'DEDENT':
+        curr_logical_line += logical_lines[i+1]
+        i += 1
+      new_logical_lines.append(curr_logical_line)
+      curr_logical_line = []
+      i += 1
+
+    source = " NEWLINE ".join(new_logical_lines)
 
     # Dedent all the indents that were previously made
     if len(indent_stack) > 1:
       for _ in range(len(indent_stack)-1):
         source = source + ' NEWLINE DEDENT '
-    else:
+    elif indent_stack[-1] == 0:
       source = source + ' NEWLINE '
 
+    print('added dedent ', source)
     self.source = source

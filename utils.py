@@ -1,5 +1,6 @@
 import re
 from collections import defaultdict
+from terminals import *
 
 def load_grammar_from_file(file):
   grammar = {}
@@ -17,14 +18,21 @@ def load_grammar_from_file(file):
 
       line_to_consider = line.strip()
       
-      rule = ''
       if re.match(r'(\w+):', line_to_consider):
         split_colon_arr = line_to_consider.split(':')
 
         current_non_terminal = split_colon_arr[0].strip()
-        if (split_colon_arr[1]):
+        if (split_colon_arr[1].strip()):
           rule = ':'.join(split_colon_arr[1:]).strip()
           grammar[current_non_terminal] = [rule]
+          rule_counts[(current_non_terminal, rule)] += 1
+          lhs_counts[current_non_terminal] += 1
+        
+        # Handle case for colon terminal
+        elif len(split_colon_arr)>2:
+          grammar[current_non_terminal] = [':']
+          rule_counts[(current_non_terminal, ':')] += 1
+          lhs_counts[current_non_terminal] += 1
 
       elif (line_to_consider.startswith('|')):
         rule = line_to_consider[1:].strip()
@@ -32,9 +40,8 @@ def load_grammar_from_file(file):
           grammar[current_non_terminal] = [rule]
         else:
           grammar[current_non_terminal].append(rule)
-
-      rule_counts[(current_non_terminal, rule)] += 1
-      lhs_counts[current_non_terminal] += 1
+        rule_counts[(current_non_terminal, rule)] += 1
+        lhs_counts[current_non_terminal] += 1
 
     rule_probabilities = {
       lhs: {rhs: rule_counts[(lhs, rhs)] / lhs_counts[lhs] for (lhs_rule, rhs) in rule_counts if lhs_rule == lhs}
@@ -42,6 +49,23 @@ def load_grammar_from_file(file):
     }
 
     return rule_probabilities
+
+def get_nullable(grammar):
+  nullable = set()
+  # find nullable non terminals
+  for head, productions in grammar.items():
+    for production in productions.keys():
+      if production == "''":
+        nullable.add(head)
+  
+  for head, productions in grammar.items():
+    for production in productions.keys():
+      prod_arr = production.split(' ')
+      if len(prod_arr) > 1:
+        if prod_arr[0] in nullable and prod_arr[1] in nullable:
+          nullable.add(head)
+
+  return nullable
 
 def deepcopy(grammar_obj):
   copied = {}
@@ -64,3 +88,131 @@ def print_table(table, table_name):
     for i, b in enumerate(table_entry):
       print(i, b)
     print()
+
+def split_into_blocks(lexed_code):
+  indent_block_map = [[]]
+  indent_line_parallel_arr = []
+  curr_indent = 0
+  
+  for (token, _id) in lexed_code:
+    if token == 'NEWLINE':
+      indent_line_parallel_arr.append(curr_indent)
+      indent_block_map[curr_indent] = [[]]
+    elif token == 'INDENT':
+      curr_indent += 1
+      if curr_indent >= len(indent_block_map):
+        indent_block_map.append([])
+    elif token == 'DEDENT':
+      curr_indent -= 1
+  
+  curr_indent = 0
+  curr_line = 0
+
+  # Tracks if prev token is a dedent token
+  prev_token_dedent = False
+
+  for (token, _id) in lexed_code:
+    if token == 'DEDENT':
+      # Start new block
+      indent_block_map[curr_indent].append([])
+      curr_indent -= 1
+
+      # Append dedent to end of indented block
+      indent_block_map[curr_indent][-1].append((token, _id))
+
+      # Start new dedent block
+      indent_block_map[curr_indent].append([])
+      prev_token_dedent = True
+    elif token == 'NEWLINE':
+      if not prev_token_dedent:
+        # If we didn't just dedent, add the NEWLINE to current indent
+        indent_block_map[curr_indent][-1].append((token, _id))
+
+        # If the next line is at the same indent level we can split into a diff block
+        if curr_line+1 < len(indent_line_parallel_arr) and indent_line_parallel_arr[curr_line+1] == curr_indent:
+          indent_block_map[curr_indent].append([])
+        prev_token_dedent = False
+      else:
+        prev_token_dedent = True
+        
+      curr_line += 1
+    elif token == 'INDENT':
+      indent_block_map[curr_indent][-1].append((token, _id))
+      indent_block_map[curr_indent][-1].append(('STUB-BLOCK', _id+1))
+      curr_indent += 1
+      prev_token_dedent = False
+    else:
+      indent_block_map[curr_indent][-1].append((token, _id))
+      prev_token_dedent = False
+
+  indent_block_map_update = []
+  for b_indent in indent_block_map:
+    curr_indent = []
+    for b in b_indent:
+      if len(b) > 0:
+        curr_indent.append(b)
+
+    indent_block_map_update.append(curr_indent)
+
+  print('BLOCKS --')
+  for i, blocks in enumerate(indent_block_map_update):
+    print(i)
+    for b in blocks:
+      print(b)
+    print()
+
+  return indent_block_map_update
+
+def reconstruct_blocks(corrected_blocks):
+  reconstructed_blocks = corrected_blocks
+
+  for indent_num in range(len(corrected_blocks)-2, -1, -1):
+    blocks = reconstructed_blocks[indent_num]
+
+    for block_num, block in enumerate(blocks):
+      total_replacements = 0 
+      for token_num, (token, _id) in enumerate(block):
+        # Tracks updated token number, incase we have multiple replacements
+        updated_token_num = token_num + total_replacements
+        if token == 'STUB-BLOCK':
+          # Get replacement block for stub
+          replacement = reconstructed_blocks[indent_num+1][-1]
+          for block_ in reconstructed_blocks[indent_num+1]:
+            if block_[0][1] == _id:
+              replacement = block_
+              continue
+
+          # Perform the replacement
+          blocks[block_num] = blocks[block_num][:updated_token_num] + replacement + blocks[block_num][updated_token_num+1:]
+          # Update length of replacement we made
+          total_replacements += len(replacement)-1
+
+  return reconstructed_blocks[0]
+
+def reverse_lex(lexed_code, value_map, values_appeared, tab_spaces=2):
+  final_code = []
+  curr_line = []
+  curr_indent = 0
+  for (token, _id) in lexed_code:
+    final_line_code = []
+    if token == 'NEWLINE':
+      for (token2, _id2) in curr_line:
+        if token2 in ['NAME', 'NUMBER', 'FSTRING_MIDDLE']:
+          if _id2 in value_map:
+            final_line_code.append(value_map[_id2])
+          else:
+            final_line_code.append(values_appeared[token2][0])
+        else:
+          final_line_code.append(token2)
+        
+      final_line_code = ' ' * tab_spaces * curr_indent + ' '.join(final_line_code).strip() 
+      final_code.append(final_line_code)
+      curr_line = []
+    elif token == 'INDENT':
+      curr_indent += 1
+    elif token == 'DEDENT':
+      curr_indent -= 1
+    else:
+      curr_line.append((token, _id))
+
+  return '\n'.join(final_code)

@@ -1,5 +1,3 @@
-x=0
-y=5
-
-if 1:
-  1+4
+if x(y(7)):
+  print(adf, asdf
+  x = adf
