@@ -1,4 +1,5 @@
 import re
+import json
 from collections import defaultdict
 from terminals import *
 
@@ -50,7 +51,7 @@ def load_grammar_from_file(file):
 
     return rule_probabilities
 
-def get_nullable(grammar):
+def get_empty(grammar):
   nullable = set()
   # find nullable non terminals
   for head, productions in grammar.items():
@@ -90,10 +91,17 @@ def print_table(table, table_name):
     print()
 
 def split_into_blocks(lexed_code):
+  with open('./additional_files/reliant_blocks.json') as f:
+    reliant_blocks = json.load(f)
+  
+  # For each indent level, maintain the blocks at that level
   indent_block_map = [[]]
+
+  # Parallel array that tracks the indent level of each line
   indent_line_parallel_arr = []
   curr_indent = 0
   
+  # Initialise indent block map and indent map
   for (token, _id) in lexed_code:
     if token == 'NEWLINE':
       indent_line_parallel_arr.append(curr_indent)
@@ -111,6 +119,7 @@ def split_into_blocks(lexed_code):
   # Tracks if prev token is a dedent token
   prev_token_dedent = False
 
+  # Adds to block map
   for (token, _id) in lexed_code:
     if token == 'DEDENT':
       # Start new block
@@ -145,12 +154,25 @@ def split_into_blocks(lexed_code):
       indent_block_map[curr_indent][-1].append((token, _id))
       prev_token_dedent = False
 
+  # Filter out [] at the end of some indents, and join reliant blocks
   indent_block_map_update = []
+
   for b_indent in indent_block_map:
     curr_indent = []
-    for b in b_indent:
+    i = 0
+    while i < len(b_indent):
+      b = b_indent[i]
       if len(b) > 0:
-        curr_indent.append(b)
+        to_append = b
+        # Coalesce 2 blocks if they are reliant
+        if i < len(b_indent)-2:
+          next_b = b_indent[i+1]
+          if next_b[0][0] in reliant_blocks and b[0][0] in reliant_blocks[next_b[0][0]]:
+            to_append = b + next_b
+            i += 1
+        
+        curr_indent.append(to_append)
+      i += 1
 
     indent_block_map_update.append(curr_indent)
 

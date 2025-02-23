@@ -1,0 +1,6 @@
+{
+  "elif": ["if"],
+  "else": ["if", "elif"],
+  "except": ["try"],
+  "finally": ["try", "except"]
+}

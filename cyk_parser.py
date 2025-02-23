@@ -173,6 +173,7 @@ class CYK_Parser():
 
     return T, back
   
+  # Returns whether we can parse some code as a given non_terminal
   def is_parse_successful(self, to_parse, non_terminal = 'statements'):
     T, back = self.parse_beam(to_parse)
     for x in T[0]:
@@ -180,6 +181,7 @@ class CYK_Parser():
     print()
     return T[0][len(to_parse)][non_terminal] > 0
   
+  # Parses block collection based on number of threads
   def parse_block_collection(self, blocks):
     if self.threads <= 1:
       for block in blocks:

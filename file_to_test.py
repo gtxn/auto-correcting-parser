@@ -1,3 +1,4 @@
-if x(y(7)):
-  print(adf, asdf
-  x = adf
+try:
+  asdfasdf
+except Exception as :
+  asdfasdf(asdf)
