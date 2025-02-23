@@ -1,10 +1,8 @@
 import json
 from utils import load_grammar_from_file, split_into_blocks, reconstruct_blocks
 from collections import defaultdict
-from terminal_productions import terminal_productions
 from correction import Correction
 import heapq
-from multiprocessing import Pool, Process
 from concurrent.futures import ProcessPoolExecutor
 from functools import partial
 
@@ -176,9 +174,8 @@ class CYK_Parser():
   # Returns whether we can parse some code as a given non_terminal
   def is_parse_successful(self, to_parse, non_terminal = 'statements'):
     T, back = self.parse_beam(to_parse)
-    for x in T[0]:
-      print(to_parse, x)
-    print()
+    # print('dict', T[10][11]['dict'])
+
     return T[0][len(to_parse)][non_terminal] > 0
   
   # Parses block collection based on number of threads
@@ -194,7 +191,7 @@ class CYK_Parser():
         return is_block_successful
 
   # Parse with beam search and block parsing, keep track of grammar rules used
-  def parse_beam_block(self, to_parse): 
+  def is_parse_successful_parse_beam_block(self, to_parse): 
     with ProcessPoolExecutor(self.threads) as executor:
       # Collection of blocks for each indentation level
       blocks_collection = split_into_blocks(to_parse)
@@ -207,8 +204,13 @@ class CYK_Parser():
       else:
           func = partial(self.parse_block_collection)
           result = list(executor.map(func, blocks_collection))
+
+          for indent_b in result:
+            for b_result in indent_b:
+              if b_result == False:
+                return False, result
       
-          print(result)
+          return True, result
 
   # Parsing algorithm adapted for error correction referencing MartinLange
   def parse_with_err_correction(self, to_parse):

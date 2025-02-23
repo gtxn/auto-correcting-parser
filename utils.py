@@ -167,9 +167,14 @@ def split_into_blocks(lexed_code):
         # Coalesce 2 blocks if they are reliant
         if i < len(b_indent)-2:
           next_b = b_indent[i+1]
-          if next_b[0][0] in reliant_blocks and b[0][0] in reliant_blocks[next_b[0][0]]:
-            to_append = b + next_b
-            i += 1
+          if len(next_b):
+            is_reliant = False
+            if next_b[0][0] in reliant_blocks and b[0][0] in reliant_blocks[next_b[0][0]]:
+              is_reliant = True
+            
+            if is_reliant:
+              to_append = b + next_b
+              i += 1
         
         curr_indent.append(to_append)
       i += 1

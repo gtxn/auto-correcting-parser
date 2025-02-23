@@ -24,7 +24,8 @@ if __name__ == '__main__':
     # T, back = parser.parse(tokens)
     # T, back = parser.parse_beam(tokens)
     print('PARSING...')
-    parser.parse_beam_block(tokens_with_id)
+    is_valid_parse, parse_validity_breakdown = parser.is_parse_successful_parse_beam_block(tokens_with_id)
+    print(is_valid_parse, parse_validity_breakdown)
 
     # corrected_tree = parser.get_parse_tree(tokens_with_id, back)
 

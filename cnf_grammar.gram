@@ -1,151 +1,151 @@
-terminal_0: DEDENT
+terminal_0: N
 
-terminal_1: N
+terminal_1: ->
 
-terminal_2: FSTRING_END
+terminal_2: NUMBER
 
-terminal_3: :
+terminal_3: [
 
-terminal_4: ->
+terminal_4: >
 
-terminal_5: >
+terminal_5: if
 
-terminal_6: FSTRING_START
+terminal_6: except
 
-terminal_7: +
+terminal_7: !
 
-terminal_8: assert
+terminal_8: ...
 
-terminal_9: from
+terminal_9: continue
 
-terminal_10: import
+terminal_10: break
 
-terminal_11: @
+terminal_11: _
 
-terminal_12: class
+terminal_12: STRING
 
-terminal_13: with
+terminal_13: else
 
-terminal_14: None
+terminal_14: (
 
-terminal_15: not
+terminal_15: pass
 
-terminal_16: NEWLINE
+terminal_16: {
 
-terminal_17: ]
+terminal_17: from
 
-terminal_18: INDENT
+terminal_18: ENDMARKER
 
-terminal_19: or
+terminal_19: assert
 
-terminal_20: NAME
+terminal_20: or
 
-terminal_21: return
+terminal_21: *
 
-terminal_22: elif
+terminal_22: def
 
-terminal_23: continue
+terminal_23: and
 
-terminal_24: ,
+terminal_24: +
 
-terminal_25: **
+terminal_25: for
 
-terminal_26: except
+terminal_26: @
 
-terminal_27: ENDMARKER
+terminal_27: ~
 
-terminal_28: as
+terminal_28: while
 
-terminal_29: !=
+terminal_29: :
 
-terminal_30: }
+terminal_30: %
 
-terminal_31: STRING
+terminal_31: None
 
-terminal_32: def
+terminal_32: -
 
-terminal_33: while
+terminal_33: ;
 
-terminal_34: F
+terminal_34: not
 
-terminal_35: {
+terminal_35: //
 
-terminal_36: try
+terminal_36: T
 
-terminal_37: [
+terminal_37: !=
 
-terminal_38: -
+terminal_38: .
 
-terminal_39: pass
+terminal_39: with
 
-terminal_40: *
+terminal_40: =
 
-terminal_41: ~
+terminal_41: **
 
-terminal_42: else
+terminal_42: FSTRING_START
 
-terminal_43: True
+terminal_43: class
 
-terminal_44: (
+terminal_44: in
 
-terminal_45: !
+terminal_45: ,
 
-terminal_46: ;
+terminal_46: INDENT
 
-terminal_47: break
+terminal_47: is
 
-terminal_48: ==
+terminal_48: True
 
-terminal_49: %
+terminal_49: return
 
-terminal_50: /
+terminal_50: FSTRING_MIDDLE
 
-terminal_51: <
+terminal_51: False
 
-terminal_52: .
+terminal_52: FSTRING_END
 
-terminal_53: )
+terminal_53: ==
 
-terminal_54: if
+terminal_54: ]
 
-terminal_55: finally
+terminal_55: elif
 
-terminal_56: =
+terminal_56: try
 
-terminal_57: in
+terminal_57: raise
 
-terminal_58: //
+terminal_58: F
 
-terminal_59: False
+terminal_59: }
 
-terminal_60: FSTRING_MIDDLE
+terminal_60: import
 
-terminal_61: _
+terminal_61: <
 
-terminal_62: for
+terminal_62: DEDENT
 
-terminal_63: ...
+terminal_63: NEWLINE
 
-terminal_64: raise
+terminal_64: NAME
 
-terminal_65: is
+terminal_65: finally
 
-terminal_66: NUMBER
+terminal_66: /
 
-terminal_67: and
+terminal_67: as
 
-terminal_68: T
+terminal_68: )
 
 start: 
-	| statements terminal_27
+	| statements terminal_18
 	| ENDMARKER
 
 file: 
-	| statements terminal_27
+	| statements terminal_18
 	| ENDMARKER
 
 interactive: 
-	| compound_stmt terminal_16
+	| compound_stmt terminal_63
 	| simple_stmt simple_stmts_join_continuation_1
 	| NEWLINE
 	| ENDMARKER
@@ -155,109 +155,109 @@ eval: expressions eval_asterisk_continuation_1
 statements: statement statements_plus_continuation_1
 
 statement: 
-	| terminal_32 statement_0
-	| terminal_32 statement_7
-	| terminal_32 statement_12
-	| terminal_32 statement_18
-	| terminal_54 statement_22
-	| terminal_54 statement_25
-	| terminal_54 statement_28
-	| terminal_12 statement_30
-	| terminal_12 statement_32
-	| terminal_12 statement_37
-	| terminal_13 statement_41
-	| terminal_13 statement_43
-	| terminal_62 statement_44
-	| terminal_62 statement_49
-	| terminal_36 statement_53
-	| terminal_36 statement_55
-	| terminal_33 statement_58
-	| terminal_33 statement_61
+	| terminal_22 statement_0
+	| terminal_22 statement_7
+	| terminal_22 statement_12
+	| terminal_22 statement_18
+	| terminal_5 statement_22
+	| terminal_5 statement_25
+	| terminal_5 statement_28
+	| terminal_43 statement_30
+	| terminal_43 statement_32
+	| terminal_43 statement_37
+	| terminal_39 statement_41
+	| terminal_39 statement_43
+	| terminal_25 statement_44
+	| terminal_25 statement_49
+	| terminal_56 statement_53
+	| terminal_56 statement_55
+	| terminal_28 statement_58
+	| terminal_28 statement_61
 	| simple_stmt simple_stmts_join_continuation_1
 
-statement_0: terminal_20 statement_1
+statement_0: terminal_64 statement_1
 
-statement_1: terminal_44 statement_2
+statement_1: terminal_14 statement_2
 
 statement_2: params statement_3
 
-statement_3: terminal_53 statement_4
+statement_3: terminal_68 statement_4
 
-statement_4: terminal_4 statement_5
+statement_4: terminal_1 statement_5
 
 statement_5: expression statement_6
 
-statement_6: terminal_3 block
+statement_6: terminal_29 block
 
-statement_7: terminal_20 statement_8
+statement_7: terminal_64 statement_8
 
-statement_8: terminal_44 statement_9
+statement_8: terminal_14 statement_9
 
 statement_9: params statement_10
 
-statement_10: terminal_53 statement_11
+statement_10: terminal_68 statement_11
 
-statement_11: terminal_3 block
+statement_11: terminal_29 block
 
-statement_12: terminal_20 statement_13
+statement_12: terminal_64 statement_13
 
-statement_13: terminal_44 statement_14
+statement_13: terminal_14 statement_14
 
-statement_14: terminal_53 statement_15
+statement_14: terminal_68 statement_15
 
-statement_15: terminal_4 statement_16
+statement_15: terminal_1 statement_16
 
 statement_16: expression statement_17
 
-statement_17: terminal_3 block
+statement_17: terminal_29 block
 
-statement_18: terminal_20 statement_19
+statement_18: terminal_64 statement_19
 
-statement_19: terminal_44 statement_20
+statement_19: terminal_14 statement_20
 
-statement_20: terminal_53 statement_21
+statement_20: terminal_68 statement_21
 
-statement_21: terminal_3 block
+statement_21: terminal_29 block
 
 statement_22: expression statement_23
 
-statement_23: terminal_3 statement_24
+statement_23: terminal_29 statement_24
 
 statement_24: block elif_stmt
 
 statement_25: expression statement_26
 
-statement_26: terminal_3 statement_27
+statement_26: terminal_29 statement_27
 
 statement_27: block else_block
 
 statement_28: expression statement_29
 
-statement_29: terminal_3 block
+statement_29: terminal_29 block
 
-statement_30: terminal_20 statement_31
+statement_30: terminal_64 statement_31
 
-statement_31: terminal_3 block
+statement_31: terminal_29 block
 
-statement_32: terminal_20 statement_33
+statement_32: terminal_64 statement_33
 
-statement_33: terminal_44 statement_34
+statement_33: terminal_14 statement_34
 
 statement_34: arguments statement_35
 
-statement_35: terminal_53 statement_36
+statement_35: terminal_68 statement_36
 
-statement_36: terminal_3 block
+statement_36: terminal_29 block
 
-statement_37: terminal_20 statement_38
+statement_37: terminal_64 statement_38
 
-statement_38: terminal_44 statement_39
+statement_38: terminal_14 statement_39
 
-statement_39: terminal_53 statement_40
+statement_39: terminal_68 statement_40
 
-statement_40: terminal_3 block
+statement_40: terminal_29 block
 
-statement_41: terminal_44 statement_42
+statement_41: terminal_14 statement_42
 
 statement_42: with_item with_stmt_join_continuation_1
 
@@ -265,27 +265,27 @@ statement_43: with_item with_stmt_join_continuation_11
 
 statement_44: targets statement_45
 
-statement_45: terminal_57 statement_46
+statement_45: terminal_44 statement_46
 
 statement_46: expressions statement_47
 
-statement_47: terminal_3 statement_48
+statement_47: terminal_29 statement_48
 
 statement_48: block else_block
 
 statement_49: targets statement_50
 
-statement_50: terminal_57 statement_51
+statement_50: terminal_44 statement_51
 
 statement_51: expressions statement_52
 
-statement_52: terminal_3 block
+statement_52: terminal_29 block
 
-statement_53: terminal_3 statement_54
+statement_53: terminal_29 statement_54
 
 statement_54: block finally_block
 
-statement_55: terminal_3 statement_56
+statement_55: terminal_29 statement_56
 
 statement_56: block statement_57
 
@@ -293,16 +293,16 @@ statement_57: except_block try_stmt_plus_continuation_1
 
 statement_58: expression statement_59
 
-statement_59: terminal_3 statement_60
+statement_59: terminal_29 statement_60
 
 statement_60: block else_block
 
 statement_61: expression statement_62
 
-statement_62: terminal_3 block
+statement_62: terminal_29 block
 
 statement_newline: 
-	| compound_stmt terminal_16
+	| compound_stmt terminal_63
 	| simple_stmt simple_stmts_join_continuation_1
 	| NEWLINE
 	| ENDMARKER
@@ -311,18 +311,18 @@ simple_stmts: simple_stmt simple_stmts_join_continuation_1
 
 simple_stmt: 
 	| targets simple_stmt_0
-	| expression terminal_24
+	| expression terminal_45
 	| disjunction simple_stmt_1
-	| terminal_15 inversion
+	| terminal_34 inversion
 	| term sum_rest
 	| term simple_stmt_4
 	| term simple_stmt_5
 	| term simple_stmt_6
 	| term simple_stmt_7
 	| term simple_stmt_8
-	| terminal_7 factor
-	| terminal_38 factor
-	| terminal_41 factor
+	| terminal_24 factor
+	| terminal_32 factor
+	| terminal_27 factor
 	| primary simple_stmt_9
 	| primary simple_stmt_10
 	| primary genexp
@@ -331,224 +331,223 @@ simple_stmt:
 	| 'True'
 	| 'False'
 	| 'None'
-	| fstring strings_plus_continuation_1
-	| string strings_plus_continuation_11
+	| STRING
 	| NUMBER
-	| terminal_35 simple_stmt_13
-	| terminal_35 terminal_30
+	| terminal_16 simple_stmt_13
+	| terminal_16 terminal_59
 	| '...'
-	| terminal_44 terminal_53
-	| terminal_44 simple_stmt_14
-	| terminal_44 simple_stmt_17
-	| terminal_44 simple_stmt_19
-	| terminal_37 simple_stmt_21
-	| terminal_37 terminal_17
-	| terminal_37 simple_stmt_22
+	| terminal_14 terminal_68
+	| terminal_14 simple_stmt_14
+	| terminal_14 simple_stmt_17
+	| terminal_14 simple_stmt_19
+	| terminal_3 simple_stmt_21
+	| terminal_3 terminal_54
+	| terminal_3 simple_stmt_22
 	| primary simple_stmt_24
 	| primary simple_stmt_26
 	| sum simple_stmt_27
 	| inversion simple_stmt_28
 	| conjunction simple_stmt_30
 	| expression simple_stmt_32
-	| terminal_21 expressions
+	| terminal_49 expressions
 	| 'return'
-	| terminal_10 dotted_as_names
-	| terminal_9 simple_stmt_34
-	| terminal_9 simple_stmt_35
-	| terminal_9 import_from_asterisk_continuation_1
-	| terminal_9 import_from_asterisk_continuation_11
+	| terminal_60 dotted_as_names
+	| terminal_17 simple_stmt_34
+	| terminal_17 simple_stmt_35
+	| terminal_17 import_from_asterisk_continuation_1
+	| terminal_17 import_from_asterisk_continuation_11
 	| 'raise'
-	| terminal_64 simple_stmt_36
-	| terminal_64 expression
+	| terminal_57 simple_stmt_36
+	| terminal_57 expression
 	| 'pass'
-	| terminal_8 simple_stmt_38
-	| terminal_8 expression
+	| terminal_19 simple_stmt_38
+	| terminal_19 expression
 	| 'break'
 	| 'continue'
 
-simple_stmt_0: terminal_56 assignment_plus_continuation_1
+simple_stmt_0: terminal_40 assignment_plus_continuation_1
 
-simple_stmt_1: terminal_54 simple_stmt_2
+simple_stmt_1: terminal_5 simple_stmt_2
 
 simple_stmt_2: disjunction simple_stmt_3
 
-simple_stmt_3: terminal_42 expression
+simple_stmt_3: terminal_13 expression
 
-simple_stmt_4: terminal_40 factor
+simple_stmt_4: terminal_21 factor
 
-simple_stmt_5: terminal_50 factor
+simple_stmt_5: terminal_66 factor
 
-simple_stmt_6: terminal_58 factor
+simple_stmt_6: terminal_35 factor
 
-simple_stmt_7: terminal_49 factor
+simple_stmt_7: terminal_30 factor
 
-simple_stmt_8: terminal_11 factor
+simple_stmt_8: terminal_26 factor
 
-simple_stmt_9: terminal_25 factor
+simple_stmt_9: terminal_41 factor
 
-simple_stmt_10: terminal_52 terminal_20
+simple_stmt_10: terminal_38 terminal_64
 
-simple_stmt_11: terminal_37 simple_stmt_12
+simple_stmt_11: terminal_3 simple_stmt_12
 
-simple_stmt_12: slices terminal_17
+simple_stmt_12: slices terminal_54
 
-simple_stmt_13: kvpairs terminal_30
+simple_stmt_13: kvpairs terminal_59
 
 simple_stmt_14: expression simple_stmt_15
 
-simple_stmt_15: terminal_24 simple_stmt_16
+simple_stmt_15: terminal_45 simple_stmt_16
 
-simple_stmt_16: expressions terminal_53
+simple_stmt_16: expressions terminal_68
 
 simple_stmt_17: expression simple_stmt_18
 
-simple_stmt_18: terminal_24 terminal_53
+simple_stmt_18: terminal_45 terminal_68
 
 simple_stmt_19: expression simple_stmt_20
 
-simple_stmt_20: for_if_clauses terminal_53
+simple_stmt_20: for_if_clauses terminal_68
 
-simple_stmt_21: expressions terminal_17
+simple_stmt_21: expressions terminal_54
 
 simple_stmt_22: expression simple_stmt_23
 
-simple_stmt_23: for_if_clauses terminal_17
+simple_stmt_23: for_if_clauses terminal_54
 
-simple_stmt_24: terminal_44 simple_stmt_25
+simple_stmt_24: terminal_14 simple_stmt_25
 
-simple_stmt_25: arguments terminal_53
+simple_stmt_25: arguments terminal_68
 
-simple_stmt_26: terminal_44 terminal_53
+simple_stmt_26: terminal_14 terminal_68
 
 simple_stmt_27: compare_op_sum_pair comparison_plus_continuation_1
 
-simple_stmt_28: terminal_67 simple_stmt_29
+simple_stmt_28: terminal_23 simple_stmt_29
 
 simple_stmt_29: inversion conjunction_plus_continuation_1
 
-simple_stmt_30: terminal_19 simple_stmt_31
+simple_stmt_30: terminal_20 simple_stmt_31
 
 simple_stmt_31: conjunction disjunction_plus_continuation_1
 
-simple_stmt_32: terminal_24 simple_stmt_33
+simple_stmt_32: terminal_45 simple_stmt_33
 
 simple_stmt_33: expression expressions_plus_continuation_1
 
-simple_stmt_34: terminal_52 import_from_plus_continuation_1
+simple_stmt_34: terminal_38 import_from_plus_continuation_1
 
-simple_stmt_35: terminal_63 import_from_plus_continuation_11
+simple_stmt_35: terminal_8 import_from_plus_continuation_11
 
 simple_stmt_36: expression simple_stmt_37
 
-simple_stmt_37: terminal_9 expression
+simple_stmt_37: terminal_17 expression
 
 simple_stmt_38: expression simple_stmt_39
 
-simple_stmt_39: terminal_24 expression
+simple_stmt_39: terminal_45 expression
 
 compound_stmt: 
-	| terminal_32 compound_stmt_0
-	| terminal_32 compound_stmt_7
-	| terminal_32 compound_stmt_12
-	| terminal_32 compound_stmt_18
-	| terminal_54 compound_stmt_22
-	| terminal_54 compound_stmt_25
-	| terminal_54 compound_stmt_28
-	| terminal_12 compound_stmt_30
-	| terminal_12 compound_stmt_32
-	| terminal_12 compound_stmt_37
-	| terminal_13 compound_stmt_41
-	| terminal_13 compound_stmt_43
-	| terminal_62 compound_stmt_44
-	| terminal_62 compound_stmt_49
-	| terminal_36 compound_stmt_53
-	| terminal_36 compound_stmt_55
-	| terminal_33 compound_stmt_58
-	| terminal_33 compound_stmt_61
+	| terminal_22 compound_stmt_0
+	| terminal_22 compound_stmt_7
+	| terminal_22 compound_stmt_12
+	| terminal_22 compound_stmt_18
+	| terminal_5 compound_stmt_22
+	| terminal_5 compound_stmt_25
+	| terminal_5 compound_stmt_28
+	| terminal_43 compound_stmt_30
+	| terminal_43 compound_stmt_32
+	| terminal_43 compound_stmt_37
+	| terminal_39 compound_stmt_41
+	| terminal_39 compound_stmt_43
+	| terminal_25 compound_stmt_44
+	| terminal_25 compound_stmt_49
+	| terminal_56 compound_stmt_53
+	| terminal_56 compound_stmt_55
+	| terminal_28 compound_stmt_58
+	| terminal_28 compound_stmt_61
 
-compound_stmt_0: terminal_20 compound_stmt_1
+compound_stmt_0: terminal_64 compound_stmt_1
 
-compound_stmt_1: terminal_44 compound_stmt_2
+compound_stmt_1: terminal_14 compound_stmt_2
 
 compound_stmt_2: params compound_stmt_3
 
-compound_stmt_3: terminal_53 compound_stmt_4
+compound_stmt_3: terminal_68 compound_stmt_4
 
-compound_stmt_4: terminal_4 compound_stmt_5
+compound_stmt_4: terminal_1 compound_stmt_5
 
 compound_stmt_5: expression compound_stmt_6
 
-compound_stmt_6: terminal_3 block
+compound_stmt_6: terminal_29 block
 
-compound_stmt_7: terminal_20 compound_stmt_8
+compound_stmt_7: terminal_64 compound_stmt_8
 
-compound_stmt_8: terminal_44 compound_stmt_9
+compound_stmt_8: terminal_14 compound_stmt_9
 
 compound_stmt_9: params compound_stmt_10
 
-compound_stmt_10: terminal_53 compound_stmt_11
+compound_stmt_10: terminal_68 compound_stmt_11
 
-compound_stmt_11: terminal_3 block
+compound_stmt_11: terminal_29 block
 
-compound_stmt_12: terminal_20 compound_stmt_13
+compound_stmt_12: terminal_64 compound_stmt_13
 
-compound_stmt_13: terminal_44 compound_stmt_14
+compound_stmt_13: terminal_14 compound_stmt_14
 
-compound_stmt_14: terminal_53 compound_stmt_15
+compound_stmt_14: terminal_68 compound_stmt_15
 
-compound_stmt_15: terminal_4 compound_stmt_16
+compound_stmt_15: terminal_1 compound_stmt_16
 
 compound_stmt_16: expression compound_stmt_17
 
-compound_stmt_17: terminal_3 block
+compound_stmt_17: terminal_29 block
 
-compound_stmt_18: terminal_20 compound_stmt_19
+compound_stmt_18: terminal_64 compound_stmt_19
 
-compound_stmt_19: terminal_44 compound_stmt_20
+compound_stmt_19: terminal_14 compound_stmt_20
 
-compound_stmt_20: terminal_53 compound_stmt_21
+compound_stmt_20: terminal_68 compound_stmt_21
 
-compound_stmt_21: terminal_3 block
+compound_stmt_21: terminal_29 block
 
 compound_stmt_22: expression compound_stmt_23
 
-compound_stmt_23: terminal_3 compound_stmt_24
+compound_stmt_23: terminal_29 compound_stmt_24
 
 compound_stmt_24: block elif_stmt
 
 compound_stmt_25: expression compound_stmt_26
 
-compound_stmt_26: terminal_3 compound_stmt_27
+compound_stmt_26: terminal_29 compound_stmt_27
 
 compound_stmt_27: block else_block
 
 compound_stmt_28: expression compound_stmt_29
 
-compound_stmt_29: terminal_3 block
+compound_stmt_29: terminal_29 block
 
-compound_stmt_30: terminal_20 compound_stmt_31
+compound_stmt_30: terminal_64 compound_stmt_31
 
-compound_stmt_31: terminal_3 block
+compound_stmt_31: terminal_29 block
 
-compound_stmt_32: terminal_20 compound_stmt_33
+compound_stmt_32: terminal_64 compound_stmt_33
 
-compound_stmt_33: terminal_44 compound_stmt_34
+compound_stmt_33: terminal_14 compound_stmt_34
 
 compound_stmt_34: arguments compound_stmt_35
 
-compound_stmt_35: terminal_53 compound_stmt_36
+compound_stmt_35: terminal_68 compound_stmt_36
 
-compound_stmt_36: terminal_3 block
+compound_stmt_36: terminal_29 block
 
-compound_stmt_37: terminal_20 compound_stmt_38
+compound_stmt_37: terminal_64 compound_stmt_38
 
-compound_stmt_38: terminal_44 compound_stmt_39
+compound_stmt_38: terminal_14 compound_stmt_39
 
-compound_stmt_39: terminal_53 compound_stmt_40
+compound_stmt_39: terminal_68 compound_stmt_40
 
-compound_stmt_40: terminal_3 block
+compound_stmt_40: terminal_29 block
 
-compound_stmt_41: terminal_44 compound_stmt_42
+compound_stmt_41: terminal_14 compound_stmt_42
 
 compound_stmt_42: with_item with_stmt_join_continuation_1
 
@@ -556,27 +555,27 @@ compound_stmt_43: with_item with_stmt_join_continuation_11
 
 compound_stmt_44: targets compound_stmt_45
 
-compound_stmt_45: terminal_57 compound_stmt_46
+compound_stmt_45: terminal_44 compound_stmt_46
 
 compound_stmt_46: expressions compound_stmt_47
 
-compound_stmt_47: terminal_3 compound_stmt_48
+compound_stmt_47: terminal_29 compound_stmt_48
 
 compound_stmt_48: block else_block
 
 compound_stmt_49: targets compound_stmt_50
 
-compound_stmt_50: terminal_57 compound_stmt_51
+compound_stmt_50: terminal_44 compound_stmt_51
 
 compound_stmt_51: expressions compound_stmt_52
 
-compound_stmt_52: terminal_3 block
+compound_stmt_52: terminal_29 block
 
-compound_stmt_53: terminal_3 compound_stmt_54
+compound_stmt_53: terminal_29 compound_stmt_54
 
 compound_stmt_54: block finally_block
 
-compound_stmt_55: terminal_3 compound_stmt_56
+compound_stmt_55: terminal_29 compound_stmt_56
 
 compound_stmt_56: block compound_stmt_57
 
@@ -584,81 +583,81 @@ compound_stmt_57: except_block try_stmt_plus_continuation_1
 
 compound_stmt_58: expression compound_stmt_59
 
-compound_stmt_59: terminal_3 compound_stmt_60
+compound_stmt_59: terminal_29 compound_stmt_60
 
 compound_stmt_60: block else_block
 
 compound_stmt_61: expression compound_stmt_62
 
-compound_stmt_62: terminal_3 block
+compound_stmt_62: terminal_29 block
 
 assignment: targets assignment_0
 
-assignment_0: terminal_56 assignment_plus_continuation_1
+assignment_0: terminal_40 assignment_plus_continuation_1
 
 return_stmt: 
-	| terminal_21 expressions
+	| terminal_49 expressions
 	| 'return'
 
 raise_stmt: 
 	| 'raise'
-	| terminal_64 raise_stmt_0
-	| terminal_64 expression
+	| terminal_57 raise_stmt_0
+	| terminal_57 expression
 
 raise_stmt_0: expression raise_stmt_1
 
-raise_stmt_1: terminal_9 expression
+raise_stmt_1: terminal_17 expression
 
 assert_stmt: 
-	| terminal_8 assert_stmt_0
-	| terminal_8 expression
+	| terminal_19 assert_stmt_0
+	| terminal_19 expression
 
 assert_stmt_0: expression assert_stmt_1
 
-assert_stmt_1: terminal_24 expression
+assert_stmt_1: terminal_45 expression
 
 import_stmt: 
-	| terminal_10 dotted_as_names
-	| terminal_9 import_stmt_0
-	| terminal_9 import_stmt_1
-	| terminal_9 import_from_asterisk_continuation_1
-	| terminal_9 import_from_asterisk_continuation_11
+	| terminal_60 dotted_as_names
+	| terminal_17 import_stmt_0
+	| terminal_17 import_stmt_1
+	| terminal_17 import_from_asterisk_continuation_1
+	| terminal_17 import_from_asterisk_continuation_11
 
-import_stmt_0: terminal_52 import_from_plus_continuation_1
+import_stmt_0: terminal_38 import_from_plus_continuation_1
 
-import_stmt_1: terminal_63 import_from_plus_continuation_11
+import_stmt_1: terminal_8 import_from_plus_continuation_11
 
-import_name: terminal_10 dotted_as_names
+import_name: terminal_60 dotted_as_names
 
 import_from: 
-	| terminal_9 import_from_0
-	| terminal_9 import_from_1
-	| terminal_9 import_from_asterisk_continuation_1
-	| terminal_9 import_from_asterisk_continuation_11
+	| terminal_17 import_from_0
+	| terminal_17 import_from_1
+	| terminal_17 import_from_asterisk_continuation_1
+	| terminal_17 import_from_asterisk_continuation_11
 
-import_from_0: terminal_52 import_from_plus_continuation_1
+import_from_0: terminal_38 import_from_plus_continuation_1
 
-import_from_1: terminal_63 import_from_plus_continuation_11
+import_from_1: terminal_8 import_from_plus_continuation_11
 
 import_from_targets: 
 	| import_from_as_name import_from_as_names_join_continuation_1
 	| '*'
-	| terminal_44 import_from_targets_0
-	| terminal_44 import_from_targets_2
+	| terminal_14 import_from_targets_0
+	| terminal_14 import_from_targets_2
 
 import_from_targets_0: import_from_as_names import_from_targets_1
 
-import_from_targets_1: terminal_24 terminal_53
+import_from_targets_1: terminal_45 terminal_68
 
-import_from_targets_2: import_from_as_names terminal_53
+import_from_targets_2: import_from_as_names terminal_68
 
 import_from_as_names: import_from_as_name import_from_as_names_join_continuation_1
 
 import_from_as_name: 
-	| terminal_20 import_from_as_name_0
+	| terminal_64 import_from_as_name_0
 	| NAME
 
-import_from_as_name_0: terminal_28 terminal_20
+import_from_as_name_0: terminal_67 terminal_64
 
 dotted_as_names: dotted_as_name dotted_as_names_join_continuation_1
 
@@ -667,177 +666,177 @@ dotted_as_name:
 	| dotted_name dotted_as_name_1
 	| NAME
 
-dotted_as_name_0: terminal_28 terminal_20
+dotted_as_name_0: terminal_67 terminal_64
 
-dotted_as_name_1: terminal_52 terminal_20
+dotted_as_name_1: terminal_38 terminal_64
 
 dotted_name: 
 	| dotted_name dotted_name_0
 	| NAME
 
-dotted_name_0: terminal_52 terminal_20
+dotted_name_0: terminal_38 terminal_64
 
 block: 
-	| terminal_16 block_0
+	| terminal_63 block_0
 	| simple_stmt simple_stmts_join_continuation_1
 
-block_0: terminal_18 block_1
+block_0: terminal_46 block_1
 
-block_1: statements terminal_0
+block_1: statements terminal_62
 
 class_def: 
-	| terminal_12 class_def_0
-	| terminal_12 class_def_2
-	| terminal_12 class_def_7
+	| terminal_43 class_def_0
+	| terminal_43 class_def_2
+	| terminal_43 class_def_7
 
-class_def_0: terminal_20 class_def_1
+class_def_0: terminal_64 class_def_1
 
-class_def_1: terminal_3 block
+class_def_1: terminal_29 block
 
-class_def_2: terminal_20 class_def_3
+class_def_2: terminal_64 class_def_3
 
-class_def_3: terminal_44 class_def_4
+class_def_3: terminal_14 class_def_4
 
 class_def_4: arguments class_def_5
 
-class_def_5: terminal_53 class_def_6
+class_def_5: terminal_68 class_def_6
 
-class_def_6: terminal_3 block
+class_def_6: terminal_29 block
 
-class_def_7: terminal_20 class_def_8
+class_def_7: terminal_64 class_def_8
 
-class_def_8: terminal_44 class_def_9
+class_def_8: terminal_14 class_def_9
 
-class_def_9: terminal_53 class_def_10
+class_def_9: terminal_68 class_def_10
 
-class_def_10: terminal_3 block
+class_def_10: terminal_29 block
 
 class_def_raw: 
-	| terminal_12 class_def_raw_0
-	| terminal_12 class_def_raw_2
-	| terminal_12 class_def_raw_7
+	| terminal_43 class_def_raw_0
+	| terminal_43 class_def_raw_2
+	| terminal_43 class_def_raw_7
 
-class_def_raw_0: terminal_20 class_def_raw_1
+class_def_raw_0: terminal_64 class_def_raw_1
 
-class_def_raw_1: terminal_3 block
+class_def_raw_1: terminal_29 block
 
-class_def_raw_2: terminal_20 class_def_raw_3
+class_def_raw_2: terminal_64 class_def_raw_3
 
-class_def_raw_3: terminal_44 class_def_raw_4
+class_def_raw_3: terminal_14 class_def_raw_4
 
 class_def_raw_4: arguments class_def_raw_5
 
-class_def_raw_5: terminal_53 class_def_raw_6
+class_def_raw_5: terminal_68 class_def_raw_6
 
-class_def_raw_6: terminal_3 block
+class_def_raw_6: terminal_29 block
 
-class_def_raw_7: terminal_20 class_def_raw_8
+class_def_raw_7: terminal_64 class_def_raw_8
 
-class_def_raw_8: terminal_44 class_def_raw_9
+class_def_raw_8: terminal_14 class_def_raw_9
 
-class_def_raw_9: terminal_53 class_def_raw_10
+class_def_raw_9: terminal_68 class_def_raw_10
 
-class_def_raw_10: terminal_3 block
+class_def_raw_10: terminal_29 block
 
 function_def: 
-	| terminal_32 function_def_0
-	| terminal_32 function_def_7
-	| terminal_32 function_def_12
-	| terminal_32 function_def_18
+	| terminal_22 function_def_0
+	| terminal_22 function_def_7
+	| terminal_22 function_def_12
+	| terminal_22 function_def_18
 
-function_def_0: terminal_20 function_def_1
+function_def_0: terminal_64 function_def_1
 
-function_def_1: terminal_44 function_def_2
+function_def_1: terminal_14 function_def_2
 
 function_def_2: params function_def_3
 
-function_def_3: terminal_53 function_def_4
+function_def_3: terminal_68 function_def_4
 
-function_def_4: terminal_4 function_def_5
+function_def_4: terminal_1 function_def_5
 
 function_def_5: expression function_def_6
 
-function_def_6: terminal_3 block
+function_def_6: terminal_29 block
 
-function_def_7: terminal_20 function_def_8
+function_def_7: terminal_64 function_def_8
 
-function_def_8: terminal_44 function_def_9
+function_def_8: terminal_14 function_def_9
 
 function_def_9: params function_def_10
 
-function_def_10: terminal_53 function_def_11
+function_def_10: terminal_68 function_def_11
 
-function_def_11: terminal_3 block
+function_def_11: terminal_29 block
 
-function_def_12: terminal_20 function_def_13
+function_def_12: terminal_64 function_def_13
 
-function_def_13: terminal_44 function_def_14
+function_def_13: terminal_14 function_def_14
 
-function_def_14: terminal_53 function_def_15
+function_def_14: terminal_68 function_def_15
 
-function_def_15: terminal_4 function_def_16
+function_def_15: terminal_1 function_def_16
 
 function_def_16: expression function_def_17
 
-function_def_17: terminal_3 block
+function_def_17: terminal_29 block
 
-function_def_18: terminal_20 function_def_19
+function_def_18: terminal_64 function_def_19
 
-function_def_19: terminal_44 function_def_20
+function_def_19: terminal_14 function_def_20
 
-function_def_20: terminal_53 function_def_21
+function_def_20: terminal_68 function_def_21
 
-function_def_21: terminal_3 block
+function_def_21: terminal_29 block
 
 function_def_raw: 
-	| terminal_32 function_def_raw_0
-	| terminal_32 function_def_raw_7
-	| terminal_32 function_def_raw_12
-	| terminal_32 function_def_raw_18
+	| terminal_22 function_def_raw_0
+	| terminal_22 function_def_raw_7
+	| terminal_22 function_def_raw_12
+	| terminal_22 function_def_raw_18
 
-function_def_raw_0: terminal_20 function_def_raw_1
+function_def_raw_0: terminal_64 function_def_raw_1
 
-function_def_raw_1: terminal_44 function_def_raw_2
+function_def_raw_1: terminal_14 function_def_raw_2
 
 function_def_raw_2: params function_def_raw_3
 
-function_def_raw_3: terminal_53 function_def_raw_4
+function_def_raw_3: terminal_68 function_def_raw_4
 
-function_def_raw_4: terminal_4 function_def_raw_5
+function_def_raw_4: terminal_1 function_def_raw_5
 
 function_def_raw_5: expression function_def_raw_6
 
-function_def_raw_6: terminal_3 block
+function_def_raw_6: terminal_29 block
 
-function_def_raw_7: terminal_20 function_def_raw_8
+function_def_raw_7: terminal_64 function_def_raw_8
 
-function_def_raw_8: terminal_44 function_def_raw_9
+function_def_raw_8: terminal_14 function_def_raw_9
 
 function_def_raw_9: params function_def_raw_10
 
-function_def_raw_10: terminal_53 function_def_raw_11
+function_def_raw_10: terminal_68 function_def_raw_11
 
-function_def_raw_11: terminal_3 block
+function_def_raw_11: terminal_29 block
 
-function_def_raw_12: terminal_20 function_def_raw_13
+function_def_raw_12: terminal_64 function_def_raw_13
 
-function_def_raw_13: terminal_44 function_def_raw_14
+function_def_raw_13: terminal_14 function_def_raw_14
 
-function_def_raw_14: terminal_53 function_def_raw_15
+function_def_raw_14: terminal_68 function_def_raw_15
 
-function_def_raw_15: terminal_4 function_def_raw_16
+function_def_raw_15: terminal_1 function_def_raw_16
 
 function_def_raw_16: expression function_def_raw_17
 
-function_def_raw_17: terminal_3 block
+function_def_raw_17: terminal_29 block
 
-function_def_raw_18: terminal_20 function_def_raw_19
+function_def_raw_18: terminal_64 function_def_raw_19
 
-function_def_raw_19: terminal_44 function_def_raw_20
+function_def_raw_19: terminal_14 function_def_raw_20
 
-function_def_raw_20: terminal_53 function_def_raw_21
+function_def_raw_20: terminal_68 function_def_raw_21
 
-function_def_raw_21: terminal_3 block
+function_def_raw_21: terminal_29 block
 
 params: 
 	| param_no_default parameters_plus_continuation_1
@@ -847,109 +846,109 @@ parameters:
 	| param_no_default parameters_plus_continuation_1
 	| param_with_default parameters_plus_continuation_11
 
-kwds: terminal_25 param_no_default
+kwds: terminal_41 param_no_default
 
 param_no_default: 
-	| param terminal_24
+	| param terminal_45
 	| NAME
 
 param_with_default: 
 	| param param_with_default_0
 	| param default
 
-param_with_default_0: default terminal_24
+param_with_default_0: default terminal_45
 
 param: NAME
 
-default: terminal_56 expression
+default: terminal_40 expression
 
 if_stmt: 
-	| terminal_54 if_stmt_0
-	| terminal_54 if_stmt_3
-	| terminal_54 if_stmt_6
+	| terminal_5 if_stmt_0
+	| terminal_5 if_stmt_3
+	| terminal_5 if_stmt_6
 
 if_stmt_0: expression if_stmt_1
 
-if_stmt_1: terminal_3 if_stmt_2
+if_stmt_1: terminal_29 if_stmt_2
 
 if_stmt_2: block elif_stmt
 
 if_stmt_3: expression if_stmt_4
 
-if_stmt_4: terminal_3 if_stmt_5
+if_stmt_4: terminal_29 if_stmt_5
 
 if_stmt_5: block else_block
 
 if_stmt_6: expression if_stmt_7
 
-if_stmt_7: terminal_3 block
+if_stmt_7: terminal_29 block
 
 elif_stmt: 
-	| terminal_22 elif_stmt_0
-	| terminal_22 elif_stmt_3
-	| terminal_22 elif_stmt_6
+	| terminal_55 elif_stmt_0
+	| terminal_55 elif_stmt_3
+	| terminal_55 elif_stmt_6
 
 elif_stmt_0: expression elif_stmt_1
 
-elif_stmt_1: terminal_3 elif_stmt_2
+elif_stmt_1: terminal_29 elif_stmt_2
 
 elif_stmt_2: block elif_stmt
 
 elif_stmt_3: expression elif_stmt_4
 
-elif_stmt_4: terminal_3 elif_stmt_5
+elif_stmt_4: terminal_29 elif_stmt_5
 
 elif_stmt_5: block else_block
 
 elif_stmt_6: expression elif_stmt_7
 
-elif_stmt_7: terminal_3 block
+elif_stmt_7: terminal_29 block
 
-else_block: terminal_42 else_block_0
+else_block: terminal_13 else_block_0
 
-else_block_0: terminal_3 block
+else_block_0: terminal_29 block
 
 while_stmt: 
-	| terminal_33 while_stmt_0
-	| terminal_33 while_stmt_3
+	| terminal_28 while_stmt_0
+	| terminal_28 while_stmt_3
 
 while_stmt_0: expression while_stmt_1
 
-while_stmt_1: terminal_3 while_stmt_2
+while_stmt_1: terminal_29 while_stmt_2
 
 while_stmt_2: block else_block
 
 while_stmt_3: expression while_stmt_4
 
-while_stmt_4: terminal_3 block
+while_stmt_4: terminal_29 block
 
 for_stmt: 
-	| terminal_62 for_stmt_0
-	| terminal_62 for_stmt_5
+	| terminal_25 for_stmt_0
+	| terminal_25 for_stmt_5
 
 for_stmt_0: targets for_stmt_1
 
-for_stmt_1: terminal_57 for_stmt_2
+for_stmt_1: terminal_44 for_stmt_2
 
 for_stmt_2: expressions for_stmt_3
 
-for_stmt_3: terminal_3 for_stmt_4
+for_stmt_3: terminal_29 for_stmt_4
 
 for_stmt_4: block else_block
 
 for_stmt_5: targets for_stmt_6
 
-for_stmt_6: terminal_57 for_stmt_7
+for_stmt_6: terminal_44 for_stmt_7
 
 for_stmt_7: expressions for_stmt_8
 
-for_stmt_8: terminal_3 block
+for_stmt_8: terminal_29 block
 
 with_stmt: 
-	| terminal_13 with_stmt_0
-	| terminal_13 with_stmt_2
+	| terminal_39 with_stmt_0
+	| terminal_39 with_stmt_2
 
-with_stmt_0: terminal_44 with_stmt_1
+with_stmt_0: terminal_14 with_stmt_1
 
 with_stmt_1: with_item with_stmt_join_continuation_1
 
@@ -958,16 +957,16 @@ with_stmt_2: with_item with_stmt_join_continuation_11
 with_item: 
 	| expression with_item_0
 	| disjunction with_item_1
-	| terminal_15 inversion
+	| terminal_34 inversion
 	| term sum_rest
 	| term with_item_4
 	| term with_item_5
 	| term with_item_6
 	| term with_item_7
 	| term with_item_8
-	| terminal_7 factor
-	| terminal_38 factor
-	| terminal_41 factor
+	| terminal_24 factor
+	| terminal_32 factor
+	| terminal_27 factor
 	| primary with_item_9
 	| primary with_item_10
 	| primary genexp
@@ -976,139 +975,138 @@ with_item:
 	| 'True'
 	| 'False'
 	| 'None'
-	| fstring strings_plus_continuation_1
-	| string strings_plus_continuation_11
+	| STRING
 	| NUMBER
-	| terminal_35 with_item_13
-	| terminal_35 terminal_30
+	| terminal_16 with_item_13
+	| terminal_16 terminal_59
 	| '...'
-	| terminal_44 terminal_53
-	| terminal_44 with_item_14
-	| terminal_44 with_item_17
-	| terminal_44 with_item_19
-	| terminal_37 with_item_21
-	| terminal_37 terminal_17
-	| terminal_37 with_item_22
+	| terminal_14 terminal_68
+	| terminal_14 with_item_14
+	| terminal_14 with_item_17
+	| terminal_14 with_item_19
+	| terminal_3 with_item_21
+	| terminal_3 terminal_54
+	| terminal_3 with_item_22
 	| primary with_item_24
 	| primary with_item_26
 	| sum with_item_27
 	| inversion with_item_28
 	| conjunction with_item_30
 
-with_item_0: terminal_28 target
+with_item_0: terminal_67 target
 
-with_item_1: terminal_54 with_item_2
+with_item_1: terminal_5 with_item_2
 
 with_item_2: disjunction with_item_3
 
-with_item_3: terminal_42 expression
+with_item_3: terminal_13 expression
 
-with_item_4: terminal_40 factor
+with_item_4: terminal_21 factor
 
-with_item_5: terminal_50 factor
+with_item_5: terminal_66 factor
 
-with_item_6: terminal_58 factor
+with_item_6: terminal_35 factor
 
-with_item_7: terminal_49 factor
+with_item_7: terminal_30 factor
 
-with_item_8: terminal_11 factor
+with_item_8: terminal_26 factor
 
-with_item_9: terminal_25 factor
+with_item_9: terminal_41 factor
 
-with_item_10: terminal_52 terminal_20
+with_item_10: terminal_38 terminal_64
 
-with_item_11: terminal_37 with_item_12
+with_item_11: terminal_3 with_item_12
 
-with_item_12: slices terminal_17
+with_item_12: slices terminal_54
 
-with_item_13: kvpairs terminal_30
+with_item_13: kvpairs terminal_59
 
 with_item_14: expression with_item_15
 
-with_item_15: terminal_24 with_item_16
+with_item_15: terminal_45 with_item_16
 
-with_item_16: expressions terminal_53
+with_item_16: expressions terminal_68
 
 with_item_17: expression with_item_18
 
-with_item_18: terminal_24 terminal_53
+with_item_18: terminal_45 terminal_68
 
 with_item_19: expression with_item_20
 
-with_item_20: for_if_clauses terminal_53
+with_item_20: for_if_clauses terminal_68
 
-with_item_21: expressions terminal_17
+with_item_21: expressions terminal_54
 
 with_item_22: expression with_item_23
 
-with_item_23: for_if_clauses terminal_17
+with_item_23: for_if_clauses terminal_54
 
-with_item_24: terminal_44 with_item_25
+with_item_24: terminal_14 with_item_25
 
-with_item_25: arguments terminal_53
+with_item_25: arguments terminal_68
 
-with_item_26: terminal_44 terminal_53
+with_item_26: terminal_14 terminal_68
 
 with_item_27: compare_op_sum_pair comparison_plus_continuation_1
 
-with_item_28: terminal_67 with_item_29
+with_item_28: terminal_23 with_item_29
 
 with_item_29: inversion conjunction_plus_continuation_1
 
-with_item_30: terminal_19 with_item_31
+with_item_30: terminal_20 with_item_31
 
 with_item_31: conjunction disjunction_plus_continuation_1
 
 try_stmt: 
-	| terminal_36 try_stmt_0
-	| terminal_36 try_stmt_2
+	| terminal_56 try_stmt_0
+	| terminal_56 try_stmt_2
 
-try_stmt_0: terminal_3 try_stmt_1
+try_stmt_0: terminal_29 try_stmt_1
 
 try_stmt_1: block finally_block
 
-try_stmt_2: terminal_3 try_stmt_3
+try_stmt_2: terminal_29 try_stmt_3
 
 try_stmt_3: block try_stmt_4
 
 try_stmt_4: except_block try_stmt_plus_continuation_1
 
 except_block: 
-	| terminal_26 except_block_0
-	| terminal_26 except_block_1
-	| terminal_26 except_block_5
+	| terminal_6 except_block_0
+	| terminal_6 except_block_1
+	| terminal_6 except_block_5
 
-except_block_0: terminal_3 block
+except_block_0: terminal_29 block
 
 except_block_1: expression except_block_2
 
-except_block_2: terminal_28 except_block_3
+except_block_2: terminal_67 except_block_3
 
-except_block_3: terminal_20 except_block_4
+except_block_3: terminal_64 except_block_4
 
-except_block_4: terminal_3 block
+except_block_4: terminal_29 block
 
 except_block_5: expression except_block_6
 
-except_block_6: terminal_3 block
+except_block_6: terminal_29 block
 
-finally_block: terminal_55 finally_block_0
+finally_block: terminal_65 finally_block_0
 
-finally_block_0: terminal_3 block
+finally_block_0: terminal_29 block
 
 expressions: 
-	| expression terminal_24
+	| expression terminal_45
 	| disjunction expressions_0
-	| terminal_15 inversion
+	| terminal_34 inversion
 	| term sum_rest
 	| term expressions_3
 	| term expressions_4
 	| term expressions_5
 	| term expressions_6
 	| term expressions_7
-	| terminal_7 factor
-	| terminal_38 factor
-	| terminal_41 factor
+	| terminal_24 factor
+	| terminal_32 factor
+	| terminal_27 factor
 	| primary expressions_8
 	| primary expressions_9
 	| primary genexp
@@ -1117,19 +1115,18 @@ expressions:
 	| 'True'
 	| 'False'
 	| 'None'
-	| fstring strings_plus_continuation_1
-	| string strings_plus_continuation_11
+	| STRING
 	| NUMBER
-	| terminal_35 expressions_12
-	| terminal_35 terminal_30
+	| terminal_16 expressions_12
+	| terminal_16 terminal_59
 	| '...'
-	| terminal_44 terminal_53
-	| terminal_44 expressions_13
-	| terminal_44 expressions_16
-	| terminal_44 expressions_18
-	| terminal_37 expressions_20
-	| terminal_37 terminal_17
-	| terminal_37 expressions_21
+	| terminal_14 terminal_68
+	| terminal_14 expressions_13
+	| terminal_14 expressions_16
+	| terminal_14 expressions_18
+	| terminal_3 expressions_20
+	| terminal_3 terminal_54
+	| terminal_3 expressions_21
 	| primary expressions_23
 	| primary expressions_25
 	| sum expressions_26
@@ -1137,84 +1134,84 @@ expressions:
 	| conjunction expressions_29
 	| expression expressions_31
 
-expressions_0: terminal_54 expressions_1
+expressions_0: terminal_5 expressions_1
 
 expressions_1: disjunction expressions_2
 
-expressions_2: terminal_42 expression
+expressions_2: terminal_13 expression
 
-expressions_3: terminal_40 factor
+expressions_3: terminal_21 factor
 
-expressions_4: terminal_50 factor
+expressions_4: terminal_66 factor
 
-expressions_5: terminal_58 factor
+expressions_5: terminal_35 factor
 
-expressions_6: terminal_49 factor
+expressions_6: terminal_30 factor
 
-expressions_7: terminal_11 factor
+expressions_7: terminal_26 factor
 
-expressions_8: terminal_25 factor
+expressions_8: terminal_41 factor
 
-expressions_9: terminal_52 terminal_20
+expressions_9: terminal_38 terminal_64
 
-expressions_10: terminal_37 expressions_11
+expressions_10: terminal_3 expressions_11
 
-expressions_11: slices terminal_17
+expressions_11: slices terminal_54
 
-expressions_12: kvpairs terminal_30
+expressions_12: kvpairs terminal_59
 
 expressions_13: expression expressions_14
 
-expressions_14: terminal_24 expressions_15
+expressions_14: terminal_45 expressions_15
 
-expressions_15: expressions terminal_53
+expressions_15: expressions terminal_68
 
 expressions_16: expression expressions_17
 
-expressions_17: terminal_24 terminal_53
+expressions_17: terminal_45 terminal_68
 
 expressions_18: expression expressions_19
 
-expressions_19: for_if_clauses terminal_53
+expressions_19: for_if_clauses terminal_68
 
-expressions_20: expressions terminal_17
+expressions_20: expressions terminal_54
 
 expressions_21: expression expressions_22
 
-expressions_22: for_if_clauses terminal_17
+expressions_22: for_if_clauses terminal_54
 
-expressions_23: terminal_44 expressions_24
+expressions_23: terminal_14 expressions_24
 
-expressions_24: arguments terminal_53
+expressions_24: arguments terminal_68
 
-expressions_25: terminal_44 terminal_53
+expressions_25: terminal_14 terminal_68
 
 expressions_26: compare_op_sum_pair comparison_plus_continuation_1
 
-expressions_27: terminal_67 expressions_28
+expressions_27: terminal_23 expressions_28
 
 expressions_28: inversion conjunction_plus_continuation_1
 
-expressions_29: terminal_19 expressions_30
+expressions_29: terminal_20 expressions_30
 
 expressions_30: conjunction disjunction_plus_continuation_1
 
-expressions_31: terminal_24 expressions_32
+expressions_31: terminal_45 expressions_32
 
 expressions_32: expression expressions_plus_continuation_1
 
 expression: 
 	| disjunction expression_0
-	| terminal_15 inversion
+	| terminal_34 inversion
 	| term sum_rest
 	| term expression_3
 	| term expression_4
 	| term expression_5
 	| term expression_6
 	| term expression_7
-	| terminal_7 factor
-	| terminal_38 factor
-	| terminal_41 factor
+	| terminal_24 factor
+	| terminal_32 factor
+	| terminal_27 factor
 	| primary expression_8
 	| primary expression_9
 	| primary genexp
@@ -1223,98 +1220,97 @@ expression:
 	| 'True'
 	| 'False'
 	| 'None'
-	| fstring strings_plus_continuation_1
-	| string strings_plus_continuation_11
+	| STRING
 	| NUMBER
-	| terminal_35 expression_12
-	| terminal_35 terminal_30
+	| terminal_16 expression_12
+	| terminal_16 terminal_59
 	| '...'
-	| terminal_44 terminal_53
-	| terminal_44 expression_13
-	| terminal_44 expression_16
-	| terminal_44 expression_18
-	| terminal_37 expression_20
-	| terminal_37 terminal_17
-	| terminal_37 expression_21
+	| terminal_14 terminal_68
+	| terminal_14 expression_13
+	| terminal_14 expression_16
+	| terminal_14 expression_18
+	| terminal_3 expression_20
+	| terminal_3 terminal_54
+	| terminal_3 expression_21
 	| primary expression_23
 	| primary expression_25
 	| sum expression_26
 	| inversion expression_27
 	| conjunction expression_29
 
-expression_0: terminal_54 expression_1
+expression_0: terminal_5 expression_1
 
 expression_1: disjunction expression_2
 
-expression_2: terminal_42 expression
+expression_2: terminal_13 expression
 
-expression_3: terminal_40 factor
+expression_3: terminal_21 factor
 
-expression_4: terminal_50 factor
+expression_4: terminal_66 factor
 
-expression_5: terminal_58 factor
+expression_5: terminal_35 factor
 
-expression_6: terminal_49 factor
+expression_6: terminal_30 factor
 
-expression_7: terminal_11 factor
+expression_7: terminal_26 factor
 
-expression_8: terminal_25 factor
+expression_8: terminal_41 factor
 
-expression_9: terminal_52 terminal_20
+expression_9: terminal_38 terminal_64
 
-expression_10: terminal_37 expression_11
+expression_10: terminal_3 expression_11
 
-expression_11: slices terminal_17
+expression_11: slices terminal_54
 
-expression_12: kvpairs terminal_30
+expression_12: kvpairs terminal_59
 
 expression_13: expression expression_14
 
-expression_14: terminal_24 expression_15
+expression_14: terminal_45 expression_15
 
-expression_15: expressions terminal_53
+expression_15: expressions terminal_68
 
 expression_16: expression expression_17
 
-expression_17: terminal_24 terminal_53
+expression_17: terminal_45 terminal_68
 
 expression_18: expression expression_19
 
-expression_19: for_if_clauses terminal_53
+expression_19: for_if_clauses terminal_68
 
-expression_20: expressions terminal_17
+expression_20: expressions terminal_54
 
 expression_21: expression expression_22
 
-expression_22: for_if_clauses terminal_17
+expression_22: for_if_clauses terminal_54
 
-expression_23: terminal_44 expression_24
+expression_23: terminal_14 expression_24
 
-expression_24: arguments terminal_53
+expression_24: arguments terminal_68
 
-expression_25: terminal_44 terminal_53
+expression_25: terminal_14 terminal_68
 
 expression_26: compare_op_sum_pair comparison_plus_continuation_1
 
-expression_27: terminal_67 expression_28
+expression_27: terminal_23 expression_28
 
 expression_28: inversion conjunction_plus_continuation_1
 
-expression_29: terminal_19 expression_30
+expression_29: terminal_20 expression_30
 
 expression_30: conjunction disjunction_plus_continuation_1
 
 disjunction: 
-	| terminal_15 inversion
+	| terminal_34 inversion
 	| term sum_rest
 	| term disjunction_0
 	| term disjunction_1
 	| term disjunction_2
 	| term disjunction_3
 	| term disjunction_4
-	| terminal_7 factor
-	| terminal_38 factor
-	| terminal_41 factor
+	| terminal_24 factor
+	| terminal_32 factor
+	| terminal_27 factor
 	| primary disjunction_5
 	| primary disjunction_6
 	| primary genexp
@@ -1323,92 +1319,91 @@ disjunction:
 	| 'True'
 	| 'False'
 	| 'None'
-	| fstring strings_plus_continuation_1
-	| string strings_plus_continuation_11
+	| STRING
 	| NUMBER
-	| terminal_35 disjunction_9
-	| terminal_35 terminal_30
+	| terminal_16 disjunction_9
+	| terminal_16 terminal_59
 	| '...'
-	| terminal_44 terminal_53
-	| terminal_44 disjunction_10
-	| terminal_44 disjunction_13
-	| terminal_44 disjunction_15
-	| terminal_37 disjunction_17
-	| terminal_37 terminal_17
-	| terminal_37 disjunction_18
+	| terminal_14 terminal_68
+	| terminal_14 disjunction_10
+	| terminal_14 disjunction_13
+	| terminal_14 disjunction_15
+	| terminal_3 disjunction_17
+	| terminal_3 terminal_54
+	| terminal_3 disjunction_18
 	| primary disjunction_20
 	| primary disjunction_22
 	| sum disjunction_23
 	| inversion disjunction_24
 	| conjunction disjunction_26
 
-disjunction_0: terminal_40 factor
+disjunction_0: terminal_21 factor
 
-disjunction_1: terminal_50 factor
+disjunction_1: terminal_66 factor
 
-disjunction_2: terminal_58 factor
+disjunction_2: terminal_35 factor
 
-disjunction_3: terminal_49 factor
+disjunction_3: terminal_30 factor
 
-disjunction_4: terminal_11 factor
+disjunction_4: terminal_26 factor
 
-disjunction_5: terminal_25 factor
+disjunction_5: terminal_41 factor
 
-disjunction_6: terminal_52 terminal_20
+disjunction_6: terminal_38 terminal_64
 
-disjunction_7: terminal_37 disjunction_8
+disjunction_7: terminal_3 disjunction_8
 
-disjunction_8: slices terminal_17
+disjunction_8: slices terminal_54
 
-disjunction_9: kvpairs terminal_30
+disjunction_9: kvpairs terminal_59
 
 disjunction_10: expression disjunction_11
 
-disjunction_11: terminal_24 disjunction_12
+disjunction_11: terminal_45 disjunction_12
 
-disjunction_12: expressions terminal_53
+disjunction_12: expressions terminal_68
 
 disjunction_13: expression disjunction_14
 
-disjunction_14: terminal_24 terminal_53
+disjunction_14: terminal_45 terminal_68
 
 disjunction_15: expression disjunction_16
 
-disjunction_16: for_if_clauses terminal_53
+disjunction_16: for_if_clauses terminal_68
 
-disjunction_17: expressions terminal_17
+disjunction_17: expressions terminal_54
 
 disjunction_18: expression disjunction_19
 
-disjunction_19: for_if_clauses terminal_17
+disjunction_19: for_if_clauses terminal_54
 
-disjunction_20: terminal_44 disjunction_21
+disjunction_20: terminal_14 disjunction_21
 
-disjunction_21: arguments terminal_53
+disjunction_21: arguments terminal_68
 
-disjunction_22: terminal_44 terminal_53
+disjunction_22: terminal_14 terminal_68
 
 disjunction_23: compare_op_sum_pair comparison_plus_continuation_1
 
-disjunction_24: terminal_67 disjunction_25
+disjunction_24: terminal_23 disjunction_25
 
 disjunction_25: inversion conjunction_plus_continuation_1
 
-disjunction_26: terminal_19 disjunction_27
+disjunction_26: terminal_20 disjunction_27
 
 disjunction_27: conjunction disjunction_plus_continuation_1
 
 conjunction: 
-	| terminal_15 inversion
+	| terminal_34 inversion
 	| term sum_rest
 	| term conjunction_0
 	| term conjunction_1
 	| term conjunction_2
 	| term conjunction_3
 	| term conjunction_4
-	| terminal_7 factor
-	| terminal_38 factor
-	| terminal_41 factor
+	| terminal_24 factor
+	| terminal_32 factor
+	| terminal_27 factor
 	| primary conjunction_5
 	| primary conjunction_6
 	| primary genexp
@@ -1417,87 +1412,86 @@ conjunction:
 	| 'True'
 	| 'False'
 	| 'None'
-	| fstring strings_plus_continuation_1
-	| string strings_plus_continuation_11
+	| STRING
 	| NUMBER
-	| terminal_35 conjunction_9
-	| terminal_35 terminal_30
+	| terminal_16 conjunction_9
+	| terminal_16 terminal_59
 	| '...'
-	| terminal_44 terminal_53
-	| terminal_44 conjunction_10
-	| terminal_44 conjunction_13
-	| terminal_44 conjunction_15
-	| terminal_37 conjunction_17
-	| terminal_37 terminal_17
-	| terminal_37 conjunction_18
+	| terminal_14 terminal_68
+	| terminal_14 conjunction_10
+	| terminal_14 conjunction_13
+	| terminal_14 conjunction_15
+	| terminal_3 conjunction_17
+	| terminal_3 terminal_54
+	| terminal_3 conjunction_18
 	| primary conjunction_20
 	| primary conjunction_22
 	| sum conjunction_23
 	| inversion conjunction_24
 
-conjunction_0: terminal_40 factor
+conjunction_0: terminal_21 factor
 
-conjunction_1: terminal_50 factor
+conjunction_1: terminal_66 factor
 
-conjunction_2: terminal_58 factor
+conjunction_2: terminal_35 factor
 
-conjunction_3: terminal_49 factor
+conjunction_3: terminal_30 factor
 
-conjunction_4: terminal_11 factor
+conjunction_4: terminal_26 factor
 
-conjunction_5: terminal_25 factor
+conjunction_5: terminal_41 factor
 
-conjunction_6: terminal_52 terminal_20
+conjunction_6: terminal_38 terminal_64
 
-conjunction_7: terminal_37 conjunction_8
+conjunction_7: terminal_3 conjunction_8
 
-conjunction_8: slices terminal_17
+conjunction_8: slices terminal_54
 
-conjunction_9: kvpairs terminal_30
+conjunction_9: kvpairs terminal_59
 
 conjunction_10: expression conjunction_11
 
-conjunction_11: terminal_24 conjunction_12
+conjunction_11: terminal_45 conjunction_12
 
-conjunction_12: expressions terminal_53
+conjunction_12: expressions terminal_68
 
 conjunction_13: expression conjunction_14
 
-conjunction_14: terminal_24 terminal_53
+conjunction_14: terminal_45 terminal_68
 
 conjunction_15: expression conjunction_16
 
-conjunction_16: for_if_clauses terminal_53
+conjunction_16: for_if_clauses terminal_68
 
-conjunction_17: expressions terminal_17
+conjunction_17: expressions terminal_54
 
 conjunction_18: expression conjunction_19
 
-conjunction_19: for_if_clauses terminal_17
+conjunction_19: for_if_clauses terminal_54
 
-conjunction_20: terminal_44 conjunction_21
+conjunction_20: terminal_14 conjunction_21
 
-conjunction_21: arguments terminal_53
+conjunction_21: arguments terminal_68
 
-conjunction_22: terminal_44 terminal_53
+conjunction_22: terminal_14 terminal_68
 
 conjunction_23: compare_op_sum_pair comparison_plus_continuation_1
 
-conjunction_24: terminal_67 conjunction_25
+conjunction_24: terminal_23 conjunction_25
 
 conjunction_25: inversion conjunction_plus_continuation_1
 
 inversion: 
-	| terminal_15 inversion
+	| terminal_34 inversion
 	| term sum_rest
 	| term inversion_0
 	| term inversion_1
 	| term inversion_2
 	| term inversion_3
 	| term inversion_4
-	| terminal_7 factor
-	| terminal_38 factor
-	| terminal_41 factor
+	| terminal_24 factor
+	| terminal_32 factor
+	| terminal_27 factor
 	| primary inversion_5
 	| primary inversion_6
 	| primary genexp
@@ -1506,68 +1500,67 @@ inversion:
 	| 'True'
 	| 'False'
 	| 'None'
-	| fstring strings_plus_continuation_1
-	| string strings_plus_continuation_11
+	| STRING
 	| NUMBER
-	| terminal_35 inversion_9
-	| terminal_35 terminal_30
+	| terminal_16 inversion_9
+	| terminal_16 terminal_59
 	| '...'
-	| terminal_44 terminal_53
-	| terminal_44 inversion_10
-	| terminal_44 inversion_13
-	| terminal_44 inversion_15
-	| terminal_37 inversion_17
-	| terminal_37 terminal_17
-	| terminal_37 inversion_18
+	| terminal_14 terminal_68
+	| terminal_14 inversion_10
+	| terminal_14 inversion_13
+	| terminal_14 inversion_15
+	| terminal_3 inversion_17
+	| terminal_3 terminal_54
+	| terminal_3 inversion_18
 	| primary inversion_20
 	| primary inversion_22
 	| sum inversion_23
 
-inversion_0: terminal_40 factor
+inversion_0: terminal_21 factor
 
-inversion_1: terminal_50 factor
+inversion_1: terminal_66 factor
 
-inversion_2: terminal_58 factor
+inversion_2: terminal_35 factor
 
-inversion_3: terminal_49 factor
+inversion_3: terminal_30 factor
 
-inversion_4: terminal_11 factor
+inversion_4: terminal_26 factor
 
-inversion_5: terminal_25 factor
+inversion_5: terminal_41 factor
 
-inversion_6: terminal_52 terminal_20
+inversion_6: terminal_38 terminal_64
 
-inversion_7: terminal_37 inversion_8
+inversion_7: terminal_3 inversion_8
 
-inversion_8: slices terminal_17
+inversion_8: slices terminal_54
 
-inversion_9: kvpairs terminal_30
+inversion_9: kvpairs terminal_59
 
 inversion_10: expression inversion_11
 
-inversion_11: terminal_24 inversion_12
+inversion_11: terminal_45 inversion_12
 
-inversion_12: expressions terminal_53
+inversion_12: expressions terminal_68
 
 inversion_13: expression inversion_14
 
-inversion_14: terminal_24 terminal_53
+inversion_14: terminal_45 terminal_68
 
 inversion_15: expression inversion_16
 
-inversion_16: for_if_clauses terminal_53
+inversion_16: for_if_clauses terminal_68
 
-inversion_17: expressions terminal_17
+inversion_17: expressions terminal_54
 
 inversion_18: expression inversion_19
 
-inversion_19: for_if_clauses terminal_17
+inversion_19: for_if_clauses terminal_54
 
-inversion_20: terminal_44 inversion_21
+inversion_20: terminal_14 inversion_21
 
-inversion_21: arguments terminal_53
+inversion_21: arguments terminal_68
 
-inversion_22: terminal_44 terminal_53
+inversion_22: terminal_14 terminal_68
 
 inversion_23: compare_op_sum_pair comparison_plus_continuation_1
 
@@ -1578,9 +1571,9 @@ comparison:
 	| term comparison_2
 	| term comparison_3
 	| term comparison_4
-	| terminal_7 factor
-	| terminal_38 factor
-	| terminal_41 factor
+	| terminal_24 factor
+	| terminal_32 factor
+	| terminal_27 factor
 	| primary comparison_5
 	| primary comparison_6
 	| primary genexp
@@ -1589,90 +1582,89 @@ comparison:
 	| 'True'
 	| 'False'
 	| 'None'
-	| fstring strings_plus_continuation_1
-	| string strings_plus_continuation_11
+	| STRING
 	| NUMBER
-	| terminal_35 comparison_9
-	| terminal_35 terminal_30
+	| terminal_16 comparison_9
+	| terminal_16 terminal_59
 	| '...'
-	| terminal_44 terminal_53
-	| terminal_44 comparison_10
-	| terminal_44 comparison_13
-	| terminal_44 comparison_15
-	| terminal_37 comparison_17
-	| terminal_37 terminal_17
-	| terminal_37 comparison_18
+	| terminal_14 terminal_68
+	| terminal_14 comparison_10
+	| terminal_14 comparison_13
+	| terminal_14 comparison_15
+	| terminal_3 comparison_17
+	| terminal_3 terminal_54
+	| terminal_3 comparison_18
 	| primary comparison_20
 	| primary comparison_22
 	| sum comparison_23
 
-comparison_0: terminal_40 factor
+comparison_0: terminal_21 factor
 
-comparison_1: terminal_50 factor
+comparison_1: terminal_66 factor
 
-comparison_2: terminal_58 factor
+comparison_2: terminal_35 factor
 
-comparison_3: terminal_49 factor
+comparison_3: terminal_30 factor
 
-comparison_4: terminal_11 factor
+comparison_4: terminal_26 factor
 
-comparison_5: terminal_25 factor
+comparison_5: terminal_41 factor
 
-comparison_6: terminal_52 terminal_20
+comparison_6: terminal_38 terminal_64
 
-comparison_7: terminal_37 comparison_8
+comparison_7: terminal_3 comparison_8
 
-comparison_8: slices terminal_17
+comparison_8: slices terminal_54
 
-comparison_9: kvpairs terminal_30
+comparison_9: kvpairs terminal_59
 
 comparison_10: expression comparison_11
 
-comparison_11: terminal_24 comparison_12
+comparison_11: terminal_45 comparison_12
 
-comparison_12: expressions terminal_53
+comparison_12: expressions terminal_68
 
 comparison_13: expression comparison_14
 
-comparison_14: terminal_24 terminal_53
+comparison_14: terminal_45 terminal_68
 
 comparison_15: expression comparison_16
 
-comparison_16: for_if_clauses terminal_53
+comparison_16: for_if_clauses terminal_68
 
-comparison_17: expressions terminal_17
+comparison_17: expressions terminal_54
 
 comparison_18: expression comparison_19
 
-comparison_19: for_if_clauses terminal_17
+comparison_19: for_if_clauses terminal_54
 
-comparison_20: terminal_44 comparison_21
+comparison_20: terminal_14 comparison_21
 
-comparison_21: arguments terminal_53
+comparison_21: arguments terminal_68
 
-comparison_22: terminal_44 terminal_53
+comparison_22: terminal_14 terminal_68
 
 comparison_23: compare_op_sum_pair comparison_plus_continuation_1
 
 compare_op_sum_pair: 
-	| terminal_48 sum
-	| terminal_29 sum
-	| terminal_51 sum
-	| terminal_5 sum
-	| terminal_57 sum
-	| terminal_65 sum
+	| terminal_53 sum
+	| terminal_37 sum
+	| terminal_61 sum
+	| terminal_4 sum
+	| terminal_44 sum
+	| terminal_47 sum
 
-eq_sum: terminal_48 sum
+eq_sum: terminal_53 sum
 
-noteq_sum: terminal_29 sum
+noteq_sum: terminal_37 sum
 
-lt_sum: terminal_51 sum
+lt_sum: terminal_61 sum
 
-gt_sum: terminal_5 sum
+gt_sum: terminal_4 sum
 
-in_sum: terminal_57 sum
+in_sum: terminal_44 sum
 
-is_sum: terminal_65 sum
+is_sum: terminal_47 sum
 
 sum: 
 	| term sum_rest
@@ -1681,9 +1673,9 @@ sum:
 	| term sum_2
 	| term sum_3
 	| term sum_4
-	| terminal_7 factor
-	| terminal_38 factor
-	| terminal_41 factor
+	| terminal_24 factor
+	| terminal_32 factor
+	| terminal_27 factor
 	| primary sum_5
 	| primary sum_6
 	| primary genexp
@@ -1692,71 +1684,70 @@ sum:
 	| 'True'
 	| 'False'
 	| 'None'
-	| fstring strings_plus_continuation_1
-	| string strings_plus_continuation_11
+	| STRING
 	| NUMBER
-	| terminal_35 sum_9
-	| terminal_35 terminal_30
+	| terminal_16 sum_9
+	| terminal_16 terminal_59
 	| '...'
-	| terminal_44 terminal_53
-	| terminal_44 sum_10
-	| terminal_44 sum_13
-	| terminal_44 sum_15
-	| terminal_37 sum_17
-	| terminal_37 terminal_17
-	| terminal_37 sum_18
+	| terminal_14 terminal_68
+	| terminal_14 sum_10
+	| terminal_14 sum_13
+	| terminal_14 sum_15
+	| terminal_3 sum_17
+	| terminal_3 terminal_54
+	| terminal_3 sum_18
 	| primary sum_20
 	| primary sum_22
 
-sum_0: terminal_40 factor
+sum_0: terminal_21 factor
 
-sum_1: terminal_50 factor
+sum_1: terminal_66 factor
 
-sum_2: terminal_58 factor
+sum_2: terminal_35 factor
 
-sum_3: terminal_49 factor
+sum_3: terminal_30 factor
 
-sum_4: terminal_11 factor
+sum_4: terminal_26 factor
 
-sum_5: terminal_25 factor
+sum_5: terminal_41 factor
 
-sum_6: terminal_52 terminal_20
+sum_6: terminal_38 terminal_64
 
-sum_7: terminal_37 sum_8
+sum_7: terminal_3 sum_8
 
-sum_8: slices terminal_17
+sum_8: slices terminal_54
 
-sum_9: kvpairs terminal_30
+sum_9: kvpairs terminal_59
 
 sum_10: expression sum_11
 
-sum_11: terminal_24 sum_12
+sum_11: terminal_45 sum_12
 
-sum_12: expressions terminal_53
+sum_12: expressions terminal_68
 
 sum_13: expression sum_14
 
-sum_14: terminal_24 terminal_53
+sum_14: terminal_45 terminal_68
 
 sum_15: expression sum_16
 
-sum_16: for_if_clauses terminal_53
+sum_16: for_if_clauses terminal_68
 
-sum_17: expressions terminal_17
+sum_17: expressions terminal_54
 
 sum_18: expression sum_19
 
-sum_19: for_if_clauses terminal_17
+sum_19: for_if_clauses terminal_54
 
-sum_20: terminal_44 sum_21
+sum_20: terminal_14 sum_21
 
-sum_21: arguments terminal_53
+sum_21: arguments terminal_68
 
-sum_22: terminal_44 terminal_53
+sum_22: terminal_14 terminal_68
 
 sum_rest: 
-	| terminal_7 sum_rest_0
-	| terminal_38 sum_rest_1
+	| terminal_24 sum_rest_0
+	| terminal_32 sum_rest_1
 	| ''
 
 sum_rest_0: term sum_rest
@@ -1769,9 +1760,9 @@ term:
 	| term term_2
 	| term term_3
 	| term term_4
-	| terminal_7 factor
-	| terminal_38 factor
-	| terminal_41 factor
+	| terminal_24 factor
+	| terminal_32 factor
+	| terminal_27 factor
 	| primary term_5
 	| primary term_6
 	| primary genexp
@@ -1780,72 +1771,71 @@ term:
 	| 'True'
 	| 'False'
 	| 'None'
-	| fstring strings_plus_continuation_1
-	| string strings_plus_continuation_11
+	| STRING
 	| NUMBER
-	| terminal_35 term_9
-	| terminal_35 terminal_30
+	| terminal_16 term_9
+	| terminal_16 terminal_59
 	| '...'
-	| terminal_44 terminal_53
-	| terminal_44 term_10
-	| terminal_44 term_13
-	| terminal_44 term_15
-	| terminal_37 term_17
-	| terminal_37 terminal_17
-	| terminal_37 term_18
+	| terminal_14 terminal_68
+	| terminal_14 term_10
+	| terminal_14 term_13
+	| terminal_14 term_15
+	| terminal_3 term_17
+	| terminal_3 terminal_54
+	| terminal_3 term_18
 	| primary term_20
 	| primary term_22
 
-term_0: terminal_40 factor
+term_0: terminal_21 factor
 
-term_1: terminal_50 factor
+term_1: terminal_66 factor
 
-term_2: terminal_58 factor
+term_2: terminal_35 factor
 
-term_3: terminal_49 factor
+term_3: terminal_30 factor
 
-term_4: terminal_11 factor
+term_4: terminal_26 factor
 
-term_5: terminal_25 factor
+term_5: terminal_41 factor
 
-term_6: terminal_52 terminal_20
+term_6: terminal_38 terminal_64
 
-term_7: terminal_37 term_8
+term_7: terminal_3 term_8
 
-term_8: slices terminal_17
+term_8: slices terminal_54
 
-term_9: kvpairs terminal_30
+term_9: kvpairs terminal_59
 
 term_10: expression term_11
 
-term_11: terminal_24 term_12
+term_11: terminal_45 term_12
 
-term_12: expressions terminal_53
+term_12: expressions terminal_68
 
 term_13: expression term_14
 
-term_14: terminal_24 terminal_53
+term_14: terminal_45 terminal_68
 
 term_15: expression term_16
 
-term_16: for_if_clauses terminal_53
+term_16: for_if_clauses terminal_68
 
-term_17: expressions terminal_17
+term_17: expressions terminal_54
 
 term_18: expression term_19
 
-term_19: for_if_clauses terminal_17
+term_19: for_if_clauses terminal_54
 
-term_20: terminal_44 term_21
+term_20: terminal_14 term_21
 
-term_21: arguments terminal_53
+term_21: arguments terminal_68
 
-term_22: terminal_44 terminal_53
+term_22: terminal_14 terminal_68
 
 factor: 
-	| terminal_7 factor
-	| terminal_38 factor
-	| terminal_41 factor
+	| terminal_24 factor
+	| terminal_32 factor
+	| terminal_27 factor
 	| primary factor_0
 	| primary factor_1
 	| primary genexp
@@ -1854,57 +1844,56 @@ factor:
 	| 'True'
 	| 'False'
 	| 'None'
-	| fstring strings_plus_continuation_1
-	| string strings_plus_continuation_11
+	| STRING
 	| NUMBER
-	| terminal_35 factor_4
-	| terminal_35 terminal_30
+	| terminal_16 factor_4
+	| terminal_16 terminal_59
 	| '...'
-	| terminal_44 terminal_53
-	| terminal_44 factor_5
-	| terminal_44 factor_8
-	| terminal_44 factor_10
-	| terminal_37 factor_12
-	| terminal_37 terminal_17
-	| terminal_37 factor_13
+	| terminal_14 terminal_68
+	| terminal_14 factor_5
+	| terminal_14 factor_8
+	| terminal_14 factor_10
+	| terminal_3 factor_12
+	| terminal_3 terminal_54
+	| terminal_3 factor_13
 	| primary factor_15
 	| primary factor_17
 
-factor_0: terminal_25 factor
+factor_0: terminal_41 factor
 
-factor_1: terminal_52 terminal_20
+factor_1: terminal_38 terminal_64
 
-factor_2: terminal_37 factor_3
+factor_2: terminal_3 factor_3
 
-factor_3: slices terminal_17
+factor_3: slices terminal_54
 
-factor_4: kvpairs terminal_30
+factor_4: kvpairs terminal_59
 
 factor_5: expression factor_6
 
-factor_6: terminal_24 factor_7
+factor_6: terminal_45 factor_7
 
-factor_7: expressions terminal_53
+factor_7: expressions terminal_68
 
 factor_8: expression factor_9
 
-factor_9: terminal_24 terminal_53
+factor_9: terminal_45 terminal_68
 
 factor_10: expression factor_11
 
-factor_11: for_if_clauses terminal_53
+factor_11: for_if_clauses terminal_68
 
-factor_12: expressions terminal_17
+factor_12: expressions terminal_54
 
 factor_13: expression factor_14
 
-factor_14: for_if_clauses terminal_17
+factor_14: for_if_clauses terminal_54
 
-factor_15: terminal_44 factor_16
+factor_15: terminal_14 factor_16
 
-factor_16: arguments terminal_53
+factor_16: arguments terminal_68
 
-factor_17: terminal_44 terminal_53
+factor_17: terminal_14 terminal_68
 
 power: 
 	| primary power_0
@@ -1915,57 +1904,56 @@ power:
 	| 'True'
 	| 'False'
 	| 'None'
-	| fstring strings_plus_continuation_1
-	| string strings_plus_continuation_11
+	| STRING
 	| NUMBER
-	| terminal_35 power_4
-	| terminal_35 terminal_30
+	| terminal_16 power_4
+	| terminal_16 terminal_59
 	| '...'
-	| terminal_44 terminal_53
-	| terminal_44 power_5
-	| terminal_44 power_8
-	| terminal_44 power_10
-	| terminal_37 power_12
-	| terminal_37 terminal_17
-	| terminal_37 power_13
+	| terminal_14 terminal_68
+	| terminal_14 power_5
+	| terminal_14 power_8
+	| terminal_14 power_10
+	| terminal_3 power_12
+	| terminal_3 terminal_54
+	| terminal_3 power_13
 	| primary power_15
 	| primary power_17
 
-power_0: terminal_25 factor
+power_0: terminal_41 factor
 
-power_1: terminal_52 terminal_20
+power_1: terminal_38 terminal_64
 
-power_2: terminal_37 power_3
+power_2: terminal_3 power_3
 
-power_3: slices terminal_17
+power_3: slices terminal_54
 
-power_4: kvpairs terminal_30
+power_4: kvpairs terminal_59
 
 power_5: expression power_6
 
-power_6: terminal_24 power_7
+power_6: terminal_45 power_7
 
-power_7: expressions terminal_53
+power_7: expressions terminal_68
 
 power_8: expression power_9
 
-power_9: terminal_24 terminal_53
+power_9: terminal_45 terminal_68
 
 power_10: expression power_11
 
-power_11: for_if_clauses terminal_53
+power_11: for_if_clauses terminal_68
 
-power_12: expressions terminal_17
+power_12: expressions terminal_54
 
 power_13: expression power_14
 
-power_14: for_if_clauses terminal_17
+power_14: for_if_clauses terminal_54
 
-power_15: terminal_44 power_16
+power_15: terminal_14 power_16
 
-power_16: arguments terminal_53
+power_16: arguments terminal_68
 
-power_17: terminal_44 terminal_53
+power_17: terminal_14 terminal_68
 
 primary: 
 	| primary primary_0
@@ -1975,296 +1963,294 @@ primary:
 	| 'True'
 	| 'False'
 	| 'None'
-	| fstring strings_plus_continuation_1
-	| string strings_plus_continuation_11
+	| STRING
 	| NUMBER
-	| terminal_35 primary_3
-	| terminal_35 terminal_30
+	| terminal_16 primary_3
+	| terminal_16 terminal_59
 	| '...'
-	| terminal_44 terminal_53
-	| terminal_44 primary_4
-	| terminal_44 primary_7
-	| terminal_44 primary_9
-	| terminal_37 primary_11
-	| terminal_37 terminal_17
-	| terminal_37 primary_12
+	| terminal_14 terminal_68
+	| terminal_14 primary_4
+	| terminal_14 primary_7
+	| terminal_14 primary_9
+	| terminal_3 primary_11
+	| terminal_3 terminal_54
+	| terminal_3 primary_12
 	| primary primary_14
 	| primary primary_16
 
-primary_0: terminal_52 terminal_20
+primary_0: terminal_38 terminal_64
 
-primary_1: terminal_37 primary_2
+primary_1: terminal_3 primary_2
 
-primary_2: slices terminal_17
+primary_2: slices terminal_54
 
-primary_3: kvpairs terminal_30
+primary_3: kvpairs terminal_59
 
 primary_4: expression primary_5
 
-primary_5: terminal_24 primary_6
+primary_5: terminal_45 primary_6
 
-primary_6: expressions terminal_53
+primary_6: expressions terminal_68
 
 primary_7: expression primary_8
 
-primary_8: terminal_24 terminal_53
+primary_8: terminal_45 terminal_68
 
 primary_9: expression primary_10
 
-primary_10: for_if_clauses terminal_53
+primary_10: for_if_clauses terminal_68
 
-primary_11: expressions terminal_17
+primary_11: expressions terminal_54
 
 primary_12: expression primary_13
 
-primary_13: for_if_clauses terminal_17
+primary_13: for_if_clauses terminal_54
 
-primary_14: terminal_44 primary_15
+primary_14: terminal_14 primary_15
 
-primary_15: arguments terminal_53
+primary_15: arguments terminal_68
 
-primary_16: terminal_44 terminal_53
+primary_16: terminal_14 terminal_68
 
 slices: slice slices_join_continuation_1
 
 slice: 
 	| expression slice_0
-	| expression terminal_3
-	| terminal_3 expression
+	| expression terminal_29
+	| terminal_29 expression
 	| ':'
 	| expression slice_1
 	| expression slice_4
 	| expression slice_6
 	| expression slice_8
-	| terminal_3 slice_9
-	| terminal_3 slice_11
-	| terminal_3 slice_12
-	| terminal_3 terminal_3
+	| terminal_29 slice_9
+	| terminal_29 slice_11
+	| terminal_29 slice_12
+	| terminal_29 terminal_29
 
-slice_0: terminal_3 expression
+slice_0: terminal_29 expression
 
-slice_1: terminal_3 slice_2
+slice_1: terminal_29 slice_2
 
 slice_2: expression slice_3
 
-slice_3: terminal_3 expression
+slice_3: terminal_29 expression
 
-slice_4: terminal_3 slice_5
+slice_4: terminal_29 slice_5
 
-slice_5: expression terminal_3
+slice_5: expression terminal_29
 
-slice_6: terminal_3 slice_7
+slice_6: terminal_29 slice_7
 
-slice_7: terminal_3 expression
+slice_7: terminal_29 expression
 
-slice_8: terminal_3 terminal_3
+slice_8: terminal_29 terminal_29
 
 slice_9: expression slice_10
 
-slice_10: terminal_3 expression
+slice_10: terminal_29 expression
 
-slice_11: expression terminal_3
+slice_11: expression terminal_29
 
-slice_12: terminal_3 expression
+slice_12: terminal_29 expression
 
 atom: 
 	| NAME
 	| 'True'
 	| 'False'
 	| 'None'
-	| fstring strings_plus_continuation_1
-	| string strings_plus_continuation_11
+	| STRING
 	| NUMBER
-	| terminal_35 atom_0
-	| terminal_35 terminal_30
+	| terminal_16 atom_0
+	| terminal_16 terminal_59
 	| '...'
-	| terminal_44 terminal_53
-	| terminal_44 atom_1
-	| terminal_44 atom_4
-	| terminal_44 atom_6
-	| terminal_37 atom_8
-	| terminal_37 terminal_17
-	| terminal_37 atom_9
+	| terminal_14 terminal_68
+	| terminal_14 atom_1
+	| terminal_14 atom_4
+	| terminal_14 atom_6
+	| terminal_3 atom_8
+	| terminal_3 terminal_54
+	| terminal_3 atom_9
 
-atom_0: kvpairs terminal_30
+atom_0: kvpairs terminal_59
 
 atom_1: expression atom_2
 
-atom_2: terminal_24 atom_3
+atom_2: terminal_45 atom_3
 
-atom_3: expressions terminal_53
+atom_3: expressions terminal_68
 
 atom_4: expression atom_5
 
-atom_5: terminal_24 terminal_53
+atom_5: terminal_45 terminal_68
 
 atom_6: expression atom_7
 
-atom_7: for_if_clauses terminal_53
+atom_7: for_if_clauses terminal_68
 
-atom_8: expressions terminal_17
+atom_8: expressions terminal_54
 
 atom_9: expression atom_10
 
-atom_10: for_if_clauses terminal_17
+atom_10: for_if_clauses terminal_54
 
 fstring_middle: 
-	| terminal_35 fstring_middle_0
-	| terminal_35 fstring_middle_4
-	| terminal_35 fstring_middle_7
-	| terminal_35 fstring_middle_10
-	| terminal_35 fstring_middle_12
-	| terminal_35 fstring_middle_15
-	| terminal_35 fstring_middle_17
-	| terminal_35 fstring_middle_19
+	| terminal_16 fstring_middle_0
+	| terminal_16 fstring_middle_4
+	| terminal_16 fstring_middle_7
+	| terminal_16 fstring_middle_10
+	| terminal_16 fstring_middle_12
+	| terminal_16 fstring_middle_15
+	| terminal_16 fstring_middle_17
+	| terminal_16 fstring_middle_19
 	| FSTRING_MIDDLE
 
 fstring_middle_0: expressions fstring_middle_1
 
-fstring_middle_1: terminal_56 fstring_middle_2
+fstring_middle_1: terminal_40 fstring_middle_2
 
 fstring_middle_2: fstring_conversion fstring_middle_3
 
-fstring_middle_3: fstring_full_format_spec terminal_30
+fstring_middle_3: fstring_full_format_spec terminal_59
 
 fstring_middle_4: expressions fstring_middle_5
 
 fstring_middle_5: fstring_conversion fstring_middle_6
 
-fstring_middle_6: fstring_full_format_spec terminal_30
+fstring_middle_6: fstring_full_format_spec terminal_59
 
 fstring_middle_7: expressions fstring_middle_8
 
-fstring_middle_8: terminal_56 fstring_middle_9
+fstring_middle_8: terminal_40 fstring_middle_9
 
-fstring_middle_9: fstring_conversion terminal_30
+fstring_middle_9: fstring_conversion terminal_59
 
 fstring_middle_10: expressions fstring_middle_11
 
-fstring_middle_11: fstring_conversion terminal_30
+fstring_middle_11: fstring_conversion terminal_59
 
 fstring_middle_12: expressions fstring_middle_13
 
-fstring_middle_13: terminal_56 fstring_middle_14
+fstring_middle_13: terminal_40 fstring_middle_14
 
-fstring_middle_14: fstring_full_format_spec terminal_30
+fstring_middle_14: fstring_full_format_spec terminal_59
 
 fstring_middle_15: expressions fstring_middle_16
 
-fstring_middle_16: fstring_full_format_spec terminal_30
+fstring_middle_16: fstring_full_format_spec terminal_59
 
 fstring_middle_17: expressions fstring_middle_18
 
-fstring_middle_18: terminal_56 terminal_30
+fstring_middle_18: terminal_40 terminal_59
 
-fstring_middle_19: expressions terminal_30
+fstring_middle_19: expressions terminal_59
 
 fstring_replacement_field: 
-	| terminal_35 fstring_replacement_field_0
-	| terminal_35 fstring_replacement_field_4
-	| terminal_35 fstring_replacement_field_7
-	| terminal_35 fstring_replacement_field_10
-	| terminal_35 fstring_replacement_field_12
-	| terminal_35 fstring_replacement_field_15
-	| terminal_35 fstring_replacement_field_17
-	| terminal_35 fstring_replacement_field_19
+	| terminal_16 fstring_replacement_field_0
+	| terminal_16 fstring_replacement_field_4
+	| terminal_16 fstring_replacement_field_7
+	| terminal_16 fstring_replacement_field_10
+	| terminal_16 fstring_replacement_field_12
+	| terminal_16 fstring_replacement_field_15
+	| terminal_16 fstring_replacement_field_17
+	| terminal_16 fstring_replacement_field_19
 
 fstring_replacement_field_0: expressions fstring_replacement_field_1
 
-fstring_replacement_field_1: terminal_56 fstring_replacement_field_2
+fstring_replacement_field_1: terminal_40 fstring_replacement_field_2
 
 fstring_replacement_field_2: fstring_conversion fstring_replacement_field_3
 
-fstring_replacement_field_3: fstring_full_format_spec terminal_30
+fstring_replacement_field_3: fstring_full_format_spec terminal_59
 
 fstring_replacement_field_4: expressions fstring_replacement_field_5
 
 fstring_replacement_field_5: fstring_conversion fstring_replacement_field_6
 
-fstring_replacement_field_6: fstring_full_format_spec terminal_30
+fstring_replacement_field_6: fstring_full_format_spec terminal_59
 
 fstring_replacement_field_7: expressions fstring_replacement_field_8
 
-fstring_replacement_field_8: terminal_56 fstring_replacement_field_9
+fstring_replacement_field_8: terminal_40 fstring_replacement_field_9
 
-fstring_replacement_field_9: fstring_conversion terminal_30
+fstring_replacement_field_9: fstring_conversion terminal_59
 
 fstring_replacement_field_10: expressions fstring_replacement_field_11
 
-fstring_replacement_field_11: fstring_conversion terminal_30
+fstring_replacement_field_11: fstring_conversion terminal_59
 
 fstring_replacement_field_12: expressions fstring_replacement_field_13
 
-fstring_replacement_field_13: terminal_56 fstring_replacement_field_14
+fstring_replacement_field_13: terminal_40 fstring_replacement_field_14
 
-fstring_replacement_field_14: fstring_full_format_spec terminal_30
+fstring_replacement_field_14: fstring_full_format_spec terminal_59
 
 fstring_replacement_field_15: expressions fstring_replacement_field_16
 
-fstring_replacement_field_16: fstring_full_format_spec terminal_30
+fstring_replacement_field_16: fstring_full_format_spec terminal_59
 
 fstring_replacement_field_17: expressions fstring_replacement_field_18
 
-fstring_replacement_field_18: terminal_56 terminal_30
+fstring_replacement_field_18: terminal_40 terminal_59
 
-fstring_replacement_field_19: expressions terminal_30
+fstring_replacement_field_19: expressions terminal_59
 
-fstring_conversion: terminal_45 terminal_20
+fstring_conversion: terminal_7 terminal_64
 
-fstring_full_format_spec: terminal_3 fstring_full_format_spec_asterisk_continuation_1
+fstring_full_format_spec: terminal_29 fstring_full_format_spec_asterisk_continuation_1
 
 fstring_format_spec: 
 	| FSTRING_MIDDLE
-	| terminal_35 fstring_format_spec_0
-	| terminal_35 fstring_format_spec_4
-	| terminal_35 fstring_format_spec_7
-	| terminal_35 fstring_format_spec_10
-	| terminal_35 fstring_format_spec_12
-	| terminal_35 fstring_format_spec_15
-	| terminal_35 fstring_format_spec_17
-	| terminal_35 fstring_format_spec_19
+	| terminal_16 fstring_format_spec_0
+	| terminal_16 fstring_format_spec_4
+	| terminal_16 fstring_format_spec_7
+	| terminal_16 fstring_format_spec_10
+	| terminal_16 fstring_format_spec_12
+	| terminal_16 fstring_format_spec_15
+	| terminal_16 fstring_format_spec_17
+	| terminal_16 fstring_format_spec_19
 
 fstring_format_spec_0: expressions fstring_format_spec_1
 
-fstring_format_spec_1: terminal_56 fstring_format_spec_2
+fstring_format_spec_1: terminal_40 fstring_format_spec_2
 
 fstring_format_spec_2: fstring_conversion fstring_format_spec_3
 
-fstring_format_spec_3: fstring_full_format_spec terminal_30
+fstring_format_spec_3: fstring_full_format_spec terminal_59
 
 fstring_format_spec_4: expressions fstring_format_spec_5
 
 fstring_format_spec_5: fstring_conversion fstring_format_spec_6
 
-fstring_format_spec_6: fstring_full_format_spec terminal_30
+fstring_format_spec_6: fstring_full_format_spec terminal_59
 
 fstring_format_spec_7: expressions fstring_format_spec_8
 
-fstring_format_spec_8: terminal_56 fstring_format_spec_9
+fstring_format_spec_8: terminal_40 fstring_format_spec_9
 
-fstring_format_spec_9: fstring_conversion terminal_30
+fstring_format_spec_9: fstring_conversion terminal_59
 
 fstring_format_spec_10: expressions fstring_format_spec_11
 
-fstring_format_spec_11: fstring_conversion terminal_30
+fstring_format_spec_11: fstring_conversion terminal_59
 
 fstring_format_spec_12: expressions fstring_format_spec_13
 
-fstring_format_spec_13: terminal_56 fstring_format_spec_14
+fstring_format_spec_13: terminal_40 fstring_format_spec_14
 
-fstring_format_spec_14: fstring_full_format_spec terminal_30
+fstring_format_spec_14: fstring_full_format_spec terminal_59
 
 fstring_format_spec_15: expressions fstring_format_spec_16
 
-fstring_format_spec_16: fstring_full_format_spec terminal_30
+fstring_format_spec_16: fstring_full_format_spec terminal_59
 
 fstring_format_spec_17: expressions fstring_format_spec_18
 
-fstring_format_spec_18: terminal_56 terminal_30
+fstring_format_spec_18: terminal_40 terminal_59
 
-fstring_format_spec_19: expressions terminal_30
+fstring_format_spec_19: expressions terminal_59
 
-fstring: terminal_6 fstring_asterisk_continuation_1
+fstring: terminal_42 fstring_asterisk_continuation_1
 
 string: STRING
 
@@ -2273,62 +2259,62 @@ strings:
 	| string strings_plus_continuation_11
 
 list: 
-	| terminal_37 list_0
-	| terminal_37 terminal_17
+	| terminal_3 list_0
+	| terminal_3 terminal_54
 
-list_0: expressions terminal_17
+list_0: expressions terminal_54
 
 tuple: 
-	| terminal_44 terminal_53
-	| terminal_44 tuple_0
-	| terminal_44 tuple_3
+	| terminal_14 terminal_68
+	| terminal_14 tuple_0
+	| terminal_14 tuple_3
 
 tuple_0: expression tuple_1
 
-tuple_1: terminal_24 tuple_2
+tuple_1: terminal_45 tuple_2
 
-tuple_2: expressions terminal_53
+tuple_2: expressions terminal_68
 
 tuple_3: expression tuple_4
 
-tuple_4: terminal_24 terminal_53
+tuple_4: terminal_45 terminal_68
 
 dict: 
-	| terminal_35 dict_0
-	| terminal_35 terminal_30
+	| terminal_16 dict_0
+	| terminal_16 terminal_59
 
-dict_0: kvpairs terminal_30
+dict_0: kvpairs terminal_59
 
 kvpairs: kvpair kvpairs_join_continuation_1
 
 kvpair: expression kvpair_0
 
-kvpair_0: terminal_3 expression
+kvpair_0: terminal_29 expression
 
 for_if_clauses: for_if_clause for_if_clauses_plus_continuation_1
 
-for_if_clause: terminal_62 for_if_clause_0
+for_if_clause: terminal_25 for_if_clause_0
 
 for_if_clause_0: targets for_if_clause_1
 
-for_if_clause_1: terminal_57 for_if_clause_2
+for_if_clause_1: terminal_44 for_if_clause_2
 
 for_if_clause_2: disjunction for_if_clause_asterisk_continuation_1
 
-listcomp: terminal_37 listcomp_0
+listcomp: terminal_3 listcomp_0
 
 listcomp_0: expression listcomp_1
 
-listcomp_1: for_if_clauses terminal_17
+listcomp_1: for_if_clauses terminal_54
 
-genexp: terminal_44 genexp_0
+genexp: terminal_14 genexp_0
 
 genexp_0: expression genexp_1
 
-genexp_1: for_if_clauses terminal_53
+genexp_1: for_if_clauses terminal_68
 
 arguments: 
-	| args terminal_24
+	| args terminal_45
 	| kwarg kwargs_join_continuation_1
 	| expression args_join_continuation_1
 
@@ -2338,57 +2324,57 @@ args:
 
 kwargs: kwarg kwargs_join_continuation_1
 
-kwarg: terminal_20 kwarg_0
+kwarg: terminal_64 kwarg_0
 
-kwarg_0: terminal_56 expression
+kwarg_0: terminal_40 expression
 
 targets: target targets_asterisk_continuation_1
 
 targets_list_seq: target targets_list_seq_join_continuation_1
 
 targets_tuple_seq: 
-	| target terminal_24
+	| target terminal_45
 	| target targets_tuple_seq_0
 
-targets_tuple_seq_0: terminal_24 targets_tuple_seq_1
+targets_tuple_seq_0: terminal_45 targets_tuple_seq_1
 
 targets_tuple_seq_1: target targets_tuple_seq_plus_continuation_1
 
 target: 
 	| NAME
-	| terminal_44 target_0
-	| terminal_44 target_1
-	| terminal_44 terminal_53
-	| terminal_37 target_2
-	| terminal_37 terminal_17
+	| terminal_14 target_0
+	| terminal_14 target_1
+	| terminal_14 terminal_68
+	| terminal_3 target_2
+	| terminal_3 terminal_54
 	| t_primary target_3
 	| t_primary target_4
 
-target_0: target terminal_53
+target_0: target terminal_68
 
-target_1: targets_tuple_seq terminal_53
+target_1: targets_tuple_seq terminal_68
 
-target_2: targets_list_seq terminal_17
+target_2: targets_list_seq terminal_54
 
-target_3: terminal_52 terminal_20
+target_3: terminal_38 terminal_64
 
-target_4: terminal_37 target_5
+target_4: terminal_3 target_5
 
-target_5: slices terminal_17
+target_5: slices terminal_54
 
 target_atom: 
 	| NAME
-	| terminal_44 target_atom_0
-	| terminal_44 target_atom_1
-	| terminal_44 terminal_53
-	| terminal_37 target_atom_2
-	| terminal_37 terminal_17
+	| terminal_14 target_atom_0
+	| terminal_14 target_atom_1
+	| terminal_14 terminal_68
+	| terminal_3 target_atom_2
+	| terminal_3 terminal_54
 
-target_atom_0: target terminal_53
+target_atom_0: target terminal_68
 
-target_atom_1: targets_tuple_seq terminal_53
+target_atom_1: targets_tuple_seq terminal_68
 
-target_atom_2: targets_list_seq terminal_17
+target_atom_2: targets_list_seq terminal_54
 
 t_primary: 
 	| t_primary t_primary_0
@@ -2398,123 +2384,122 @@ t_primary:
 	| 'True'
 	| 'False'
 	| 'None'
-	| fstring strings_plus_continuation_1
-	| string strings_plus_continuation_11
+	| STRING
 	| NUMBER
-	| terminal_35 t_primary_3
-	| terminal_35 terminal_30
+	| terminal_16 t_primary_3
+	| terminal_16 terminal_59
 	| '...'
-	| terminal_44 terminal_53
-	| terminal_44 t_primary_4
-	| terminal_44 t_primary_7
-	| terminal_44 t_primary_9
-	| terminal_37 t_primary_11
-	| terminal_37 terminal_17
-	| terminal_37 t_primary_12
+	| terminal_14 terminal_68
+	| terminal_14 t_primary_4
+	| terminal_14 t_primary_7
+	| terminal_14 t_primary_9
+	| terminal_3 t_primary_11
+	| terminal_3 terminal_54
+	| terminal_3 t_primary_12
 	| t_primary t_primary_14
 	| t_primary t_primary_16
 
-t_primary_0: terminal_52 terminal_20
+t_primary_0: terminal_38 terminal_64
 
-t_primary_1: terminal_37 t_primary_2
+t_primary_1: terminal_3 t_primary_2
 
-t_primary_2: slices terminal_17
+t_primary_2: slices terminal_54
 
-t_primary_3: kvpairs terminal_30
+t_primary_3: kvpairs terminal_59
 
 t_primary_4: expression t_primary_5
 
-t_primary_5: terminal_24 t_primary_6
+t_primary_5: terminal_45 t_primary_6
 
-t_primary_6: expressions terminal_53
+t_primary_6: expressions terminal_68
 
 t_primary_7: expression t_primary_8
 
-t_primary_8: terminal_24 terminal_53
+t_primary_8: terminal_45 terminal_68
 
 t_primary_9: expression t_primary_10
 
-t_primary_10: for_if_clauses terminal_53
+t_primary_10: for_if_clauses terminal_68
 
-t_primary_11: expressions terminal_17
+t_primary_11: expressions terminal_54
 
 t_primary_12: expression t_primary_13
 
-t_primary_13: for_if_clauses terminal_17
+t_primary_13: for_if_clauses terminal_54
 
-t_primary_14: terminal_44 t_primary_15
+t_primary_14: terminal_14 t_primary_15
 
-t_primary_15: arguments terminal_53
+t_primary_15: arguments terminal_68
 
-t_primary_16: terminal_44 terminal_53
+t_primary_16: terminal_14 terminal_68
 
 simple_stmts_join_continuation_1: 
-	| terminal_46 simple_stmts_join_continuation_1_0
-	| terminal_46 terminal_16
+	| terminal_33 simple_stmts_join_continuation_1_0
+	| terminal_33 terminal_63
 	| NEWLINE
 
 simple_stmts_join_continuation_1_0: simple_stmt simple_stmts_join_continuation_1
 
 import_from_as_names_join_continuation_1: 
-	| terminal_24 import_from_as_names_join_continuation_1_0
+	| terminal_45 import_from_as_names_join_continuation_1_0
 	| ''
 
 import_from_as_names_join_continuation_1_0: import_from_as_name import_from_as_names_join_continuation_1
 
 dotted_as_names_join_continuation_1: 
-	| terminal_24 dotted_as_names_join_continuation_1_0
+	| terminal_45 dotted_as_names_join_continuation_1_0
 	| ''
 
 dotted_as_names_join_continuation_1_0: dotted_as_name dotted_as_names_join_continuation_1
 
 with_stmt_join_continuation_1: 
-	| terminal_24 with_stmt_join_continuation_1_0
-	| terminal_24 with_stmt_join_continuation_1_1
-	| terminal_53 with_stmt_join_continuation_1_3
+	| terminal_45 with_stmt_join_continuation_1_0
+	| terminal_45 with_stmt_join_continuation_1_1
+	| terminal_68 with_stmt_join_continuation_1_3
 
 with_stmt_join_continuation_1_0: with_item with_stmt_join_continuation_1
 
-with_stmt_join_continuation_1_1: terminal_53 with_stmt_join_continuation_1_2
+with_stmt_join_continuation_1_1: terminal_68 with_stmt_join_continuation_1_2
 
-with_stmt_join_continuation_1_2: terminal_3 block
+with_stmt_join_continuation_1_2: terminal_29 block
 
-with_stmt_join_continuation_1_3: terminal_3 block
+with_stmt_join_continuation_1_3: terminal_29 block
 
 with_stmt_join_continuation_11: 
-	| terminal_24 with_stmt_join_continuation_11_0
-	| terminal_3 block
+	| terminal_45 with_stmt_join_continuation_11_0
+	| terminal_29 block
 
 with_stmt_join_continuation_11_0: with_item with_stmt_join_continuation_11
 
 slices_join_continuation_1: 
-	| terminal_24 slices_join_continuation_1_0
+	| terminal_45 slices_join_continuation_1_0
 	| ','
 	| ''
 
 slices_join_continuation_1_0: slice slices_join_continuation_1
 
 kvpairs_join_continuation_1: 
-	| terminal_24 kvpairs_join_continuation_1_0
+	| terminal_45 kvpairs_join_continuation_1_0
 	| ','
 	| ''
 
 kvpairs_join_continuation_1_0: kvpair kvpairs_join_continuation_1
 
 args_join_continuation_1: 
-	| terminal_24 args_join_continuation_1_0
-	| terminal_24 kwargs
+	| terminal_45 args_join_continuation_1_0
+	| terminal_45 kwargs
 	| ''
 
 args_join_continuation_1_0: expression args_join_continuation_1
 
 kwargs_join_continuation_1: 
-	| terminal_24 kwargs_join_continuation_1_0
+	| terminal_45 kwargs_join_continuation_1_0
 	| ''
 
 kwargs_join_continuation_1_0: kwarg kwargs_join_continuation_1
 
 targets_list_seq_join_continuation_1: 
-	| terminal_24 targets_list_seq_join_continuation_1_0
+	| terminal_45 targets_list_seq_join_continuation_1_0
 	| ','
 	| ''
 
@@ -2526,18 +2511,18 @@ statements_plus_continuation_1:
 
 assignment_plus_continuation_1: 
 	| targets assignment_plus_continuation_1_0
-	| expression terminal_24
+	| expression terminal_45
 	| disjunction assignment_plus_continuation_1_1
-	| terminal_15 inversion
+	| terminal_34 inversion
 	| term sum_rest
 	| term assignment_plus_continuation_1_4
 	| term assignment_plus_continuation_1_5
 	| term assignment_plus_continuation_1_6
 	| term assignment_plus_continuation_1_7
 	| term assignment_plus_continuation_1_8
-	| terminal_7 factor
-	| terminal_38 factor
-	| terminal_41 factor
+	| terminal_24 factor
+	| terminal_32 factor
+	| terminal_27 factor
 	| primary assignment_plus_continuation_1_9
 	| primary assignment_plus_continuation_1_10
 	| primary genexp
@@ -2546,19 +2531,18 @@ assignment_plus_continuation_1:
 	| 'True'
 	| 'False'
 	| 'None'
-	| fstring strings_plus_continuation_1
-	| string strings_plus_continuation_11
+	| STRING
 	| NUMBER
-	| terminal_35 assignment_plus_continuation_1_13
-	| terminal_35 terminal_30
+	| terminal_16 assignment_plus_continuation_1_13
+	| terminal_16 terminal_59
 	| '...'
-	| terminal_44 terminal_53
-	| terminal_44 assignment_plus_continuation_1_14
-	| terminal_44 assignment_plus_continuation_1_17
-	| terminal_44 assignment_plus_continuation_1_19
-	| terminal_37 assignment_plus_continuation_1_21
-	| terminal_37 terminal_17
-	| terminal_37 assignment_plus_continuation_1_22
+	| terminal_14 terminal_68
+	| terminal_14 assignment_plus_continuation_1_14
+	| terminal_14 assignment_plus_continuation_1_17
+	| terminal_14 assignment_plus_continuation_1_19
+	| terminal_3 assignment_plus_continuation_1_21
+	| terminal_3 terminal_54
+	| terminal_3 assignment_plus_continuation_1_22
 	| primary assignment_plus_continuation_1_24
 	| primary assignment_plus_continuation_1_26
 	| sum assignment_plus_continuation_1_27
@@ -2566,81 +2550,81 @@ assignment_plus_continuation_1:
 	| conjunction assignment_plus_continuation_1_30
 	| expression assignment_plus_continuation_1_32
 
-assignment_plus_continuation_1_0: terminal_56 assignment_plus_continuation_1
+assignment_plus_continuation_1_0: terminal_40 assignment_plus_continuation_1
 
-assignment_plus_continuation_1_1: terminal_54 assignment_plus_continuation_1_2
+assignment_plus_continuation_1_1: terminal_5 assignment_plus_continuation_1_2
 
 assignment_plus_continuation_1_2: disjunction assignment_plus_continuation_1_3
 
-assignment_plus_continuation_1_3: terminal_42 expression
+assignment_plus_continuation_1_3: terminal_13 expression
 
-assignment_plus_continuation_1_4: terminal_40 factor
+assignment_plus_continuation_1_4: terminal_21 factor
 
-assignment_plus_continuation_1_5: terminal_50 factor
+assignment_plus_continuation_1_5: terminal_66 factor
 
-assignment_plus_continuation_1_6: terminal_58 factor
+assignment_plus_continuation_1_6: terminal_35 factor
 
-assignment_plus_continuation_1_7: terminal_49 factor
+assignment_plus_continuation_1_7: terminal_30 factor
 
-assignment_plus_continuation_1_8: terminal_11 factor
+assignment_plus_continuation_1_8: terminal_26 factor
 
-assignment_plus_continuation_1_9: terminal_25 factor
+assignment_plus_continuation_1_9: terminal_41 factor
 
-assignment_plus_continuation_1_10: terminal_52 terminal_20
+assignment_plus_continuation_1_10: terminal_38 terminal_64
 
-assignment_plus_continuation_1_11: terminal_37 assignment_plus_continuation_1_12
+assignment_plus_continuation_1_11: terminal_3 assignment_plus_continuation_1_12
 
-assignment_plus_continuation_1_12: slices terminal_17
+assignment_plus_continuation_1_12: slices terminal_54
 
-assignment_plus_continuation_1_13: kvpairs terminal_30
+assignment_plus_continuation_1_13: kvpairs terminal_59
 
 assignment_plus_continuation_1_14: expression assignment_plus_continuation_1_15
 
-assignment_plus_continuation_1_15: terminal_24 assignment_plus_continuation_1_16
+assignment_plus_continuation_1_15: terminal_45 assignment_plus_continuation_1_16
 
-assignment_plus_continuation_1_16: expressions terminal_53
+assignment_plus_continuation_1_16: expressions terminal_68
 
 assignment_plus_continuation_1_17: expression assignment_plus_continuation_1_18
 
-assignment_plus_continuation_1_18: terminal_24 terminal_53
+assignment_plus_continuation_1_18: terminal_45 terminal_68
 
 assignment_plus_continuation_1_19: expression assignment_plus_continuation_1_20
 
-assignment_plus_continuation_1_20: for_if_clauses terminal_53
+assignment_plus_continuation_1_20: for_if_clauses terminal_68
 
-assignment_plus_continuation_1_21: expressions terminal_17
+assignment_plus_continuation_1_21: expressions terminal_54
 
 assignment_plus_continuation_1_22: expression assignment_plus_continuation_1_23
 
-assignment_plus_continuation_1_23: for_if_clauses terminal_17
+assignment_plus_continuation_1_23: for_if_clauses terminal_54
 
-assignment_plus_continuation_1_24: terminal_44 assignment_plus_continuation_1_25
+assignment_plus_continuation_1_24: terminal_14 assignment_plus_continuation_1_25
 
-assignment_plus_continuation_1_25: arguments terminal_53
+assignment_plus_continuation_1_25: arguments terminal_68
 
-assignment_plus_continuation_1_26: terminal_44 terminal_53
+assignment_plus_continuation_1_26: terminal_14 terminal_68
 
 assignment_plus_continuation_1_27: compare_op_sum_pair comparison_plus_continuation_1
 
-assignment_plus_continuation_1_28: terminal_67 assignment_plus_continuation_1_29
+assignment_plus_continuation_1_28: terminal_23 assignment_plus_continuation_1_29
 
 assignment_plus_continuation_1_29: inversion conjunction_plus_continuation_1
 
-assignment_plus_continuation_1_30: terminal_19 assignment_plus_continuation_1_31
+assignment_plus_continuation_1_30: terminal_20 assignment_plus_continuation_1_31
 
 assignment_plus_continuation_1_31: conjunction disjunction_plus_continuation_1
 
-assignment_plus_continuation_1_32: terminal_24 assignment_plus_continuation_1_33
+assignment_plus_continuation_1_32: terminal_45 assignment_plus_continuation_1_33
 
 assignment_plus_continuation_1_33: expression expressions_plus_continuation_1
 
 import_from_plus_continuation_1: 
-	| terminal_52 import_from_plus_continuation_1
-	| terminal_10 import_from_targets
+	| terminal_38 import_from_plus_continuation_1
+	| terminal_60 import_from_targets
 
 import_from_plus_continuation_11: 
-	| terminal_63 import_from_plus_continuation_11
-	| terminal_10 import_from_targets
+	| terminal_8 import_from_plus_continuation_11
+	| terminal_60 import_from_targets
 
 parameters_plus_continuation_1: 
 	| param_no_default parameters_plus_continuation_1
@@ -2654,29 +2638,29 @@ parameters_plus_continuation_11:
 try_stmt_plus_continuation_1: 
 	| except_block try_stmt_plus_continuation_1
 	| else_block finally_block
-	| terminal_42 try_stmt_plus_continuation_1_0
-	| terminal_55 try_stmt_plus_continuation_1_1
+	| terminal_13 try_stmt_plus_continuation_1_0
+	| terminal_65 try_stmt_plus_continuation_1_1
 	| ''
 
-try_stmt_plus_continuation_1_0: terminal_3 block
+try_stmt_plus_continuation_1_0: terminal_29 block
 
-try_stmt_plus_continuation_1_1: terminal_3 block
+try_stmt_plus_continuation_1_1: terminal_29 block
 
 expressions_plus_continuation_1: 
-	| terminal_24 expressions_plus_continuation_1_0
+	| terminal_45 expressions_plus_continuation_1_0
 	| ','
 	| ''
 
 expressions_plus_continuation_1_0: expression expressions_plus_continuation_1
 
 disjunction_plus_continuation_1: 
-	| terminal_19 disjunction_plus_continuation_1_0
+	| terminal_20 disjunction_plus_continuation_1_0
 	| ''
 
 disjunction_plus_continuation_1_0: conjunction disjunction_plus_continuation_1
 
 conjunction_plus_continuation_1: 
-	| terminal_67 conjunction_plus_continuation_1_0
+	| terminal_23 conjunction_plus_continuation_1_0
 	| ''
 
 conjunction_plus_continuation_1_0: inversion conjunction_plus_continuation_1
@@ -2698,27 +2682,27 @@ for_if_clauses_plus_continuation_1:
 	| ''
 
 targets_tuple_seq_plus_continuation_1: 
-	| terminal_24 targets_tuple_seq_plus_continuation_1_0
+	| terminal_45 targets_tuple_seq_plus_continuation_1_0
 	| ','
 	| ''
 
 targets_tuple_seq_plus_continuation_1_0: target targets_tuple_seq_plus_continuation_1
 
 eval_asterisk_continuation_1: 
-	| terminal_16 eval_asterisk_continuation_1
+	| terminal_63 eval_asterisk_continuation_1
 	| ENDMARKER
 
 import_from_asterisk_continuation_1: 
-	| terminal_52 import_from_asterisk_continuation_1
+	| terminal_38 import_from_asterisk_continuation_1
 	| dotted_name import_from_asterisk_continuation_1_0
 
-import_from_asterisk_continuation_1_0: terminal_10 import_from_targets
+import_from_asterisk_continuation_1_0: terminal_60 import_from_targets
 
 import_from_asterisk_continuation_11: 
-	| terminal_63 import_from_asterisk_continuation_11
+	| terminal_8 import_from_asterisk_continuation_11
 	| dotted_name import_from_asterisk_continuation_11_0
 
-import_from_asterisk_continuation_11_0: terminal_10 import_from_targets
+import_from_asterisk_continuation_11_0: terminal_60 import_from_targets
 
 fstring_full_format_spec_asterisk_continuation_1: 
 	| fstring_format_spec fstring_full_format_spec_asterisk_continuation_1
@@ -2729,13 +2713,13 @@ fstring_asterisk_continuation_1:
 	| FSTRING_END
 
 for_if_clause_asterisk_continuation_1: 
-	| terminal_54 for_if_clause_asterisk_continuation_1_0
+	| terminal_5 for_if_clause_asterisk_continuation_1_0
 	| ''
 
 for_if_clause_asterisk_continuation_1_0: disjunction for_if_clause_asterisk_continuation_1
 
 targets_asterisk_continuation_1: 
-	| terminal_24 targets_asterisk_continuation_1_0
+	| terminal_45 targets_asterisk_continuation_1_0
 	| ','
 	| ''
 

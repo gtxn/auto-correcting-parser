@@ -40,9 +40,6 @@ class Lexer:
       if self.current_char in WHITESPACE:
         self.step()
       
-      elif self.current_char == "#":
-        self.skip_comment()
-      
       elif self.current_char == "'" or self.current_char == '"':
         # TODO: deal with format string!! Currently just treating inside as normal string
         if self.prev_f:
@@ -102,10 +99,6 @@ class Lexer:
       value_map[i] = t[1]
 
     return tokens_with_id, value_map
-
-  def skip_comment(self):
-    while self.current_char and self.current_char != "\n":
-      self.step()
 
   def number(self):
     num = ""
@@ -167,7 +160,8 @@ class Lexer:
       
       # Ensure physical line is not a comment or empty
       elif physical_line.strip() and not physical_line.strip().startswith('#'):
-        logical_line += physical_line
+        # If comment in the middle of a line, remove it 
+        logical_line += physical_line.split('#')[0]
         # source_code += logical_line + ' NEWLINE '
         logical_lines.append(logical_line)
         logical_line = ''
