@@ -12,7 +12,12 @@ if __name__ == '__main__':
   with open(filename) as f:
     conts = f.read()
     lexer = Lexer(conts)
-    parser = CYK_Parser('./cnf_grammar.gram', fast_mode=True, beam_search_n=beam_search_n, threads=1)
+    # Probabilities approximated from grammar
+    # parser = CYK_Parser('./cnf_grammar.gram', fast_mode=True, beam_search_n=beam_search_n, threads=30, grammar_mode='approx_from_grammar')
+    
+    # Probabilities obtained from analysis on code
+    parser = CYK_Parser('./additional_files/grammar_probabilities.json', fast_mode=True, beam_search_n=beam_search_n, threads=30, grammar_mode='from_data')
+
     rev_parser = Reverse_Parser(tab_spaces=2)
     
     # LEXING

@@ -7,12 +7,24 @@ from concurrent.futures import ProcessPoolExecutor
 from functools import partial
 
 class CYK_Parser():
-  def __init__(self, grammar_file, fast_mode=True, beam_search_n=50, threads=0):
+  # grammar_mode either 'from_data' or 'approx_from_grammar'
+  def __init__(self, grammar_file, fast_mode=True, beam_search_n=50, threads=0, grammar_mode='approx_from_grammar'):
     self.fast_mode = fast_mode
     self.beam_search_n = beam_search_n
     self.threads = threads
 
-    self.grammar = load_grammar_from_file(grammar_file)
+    if grammar_mode == 'approx_from_grammar':
+      self.grammar = load_grammar_from_file(grammar_file)
+      with open('grammar_from_loading.json', 'w') as f:
+        json.dump(self.grammar, f)
+    elif grammar_mode == 'from_data':
+      with open(grammar_file) as f:
+        self.grammar = json.load(f)
+        for head, productions in self.grammar.items():
+          for production in productions.keys():
+            production_tuple = tuple(production.split(' '))
+            print(head, production_tuple)
+
     self.insertion_map = self.load_map('additional_files/I.json')
     self.bigram_probabilities = self.load_map('additional_files/bigram_probabilities.json')
     self.correction_service = Correction()
@@ -30,7 +42,6 @@ class CYK_Parser():
       if len(insertion) == 0:
         nullable.add(non_terminal)
     return nullable
-
 
   def get_reverse_grammar(self):
     reversed_mapping = {}
@@ -415,6 +426,7 @@ class CYK_Parser():
 
       return result
   
+  # Run the correction algorithm on each block
   def correct_code_with_err_correction_beam_block(self, to_parse):          
     with ProcessPoolExecutor(self.threads) as executor1:
       # Collection of blocks for each indentation level
@@ -477,12 +489,13 @@ class CYK_Parser():
       print(corrected_code + [('ENDMARKER', -1)])
       return corrected_code + [('ENDMARKER', -1)]
   
+  # Optimise correction of many blocks by only running correction algorithm on blocks that are not correct
+
   # Given a correction, figure out the probability
   def correction_to_prob(self, correction):
     return 1/pow(10, len(correction))
 
   # How to prioritise corrections 
-  # TODO: weight insertion and deletion higher than replacement
   def compare_corrections(self, corr1, corr2, code):
     # We always pick the shortest correction
     if len(corr1) < len(corr2):
@@ -490,6 +503,14 @@ class CYK_Parser():
     elif len(corr1) > len(corr2):
       return False
     
+    # If more insertions and deletions it's preferred over replacements
+    num_one_operation_corr_1 = self.correction_service.get_num_deletions(corr1)+self.correction_service.get_num_insertions(corr1)
+    num_one_operation_corr_2 = self.correction_service.get_num_deletions(corr2)+self.correction_service.get_num_insertions(corr2)
+    if num_one_operation_corr_1 > num_one_operation_corr_2:
+      return True
+    elif num_one_operation_corr_1 < num_one_operation_corr_2:
+      return False
+
     # print(corr1, corr2, code)
     # If the corrections are the same length, we calculate the probabilities
     code_corr_1 = self.correction_service.apply_correction(corr1, code)
