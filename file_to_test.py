@@ -1,2 +1,4 @@
-if adf:
-  3 + 
+(asdf(asd, asdf )))
+
+if :
+  print(asdf + )

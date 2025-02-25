@@ -15,15 +15,9 @@ class CYK_Parser():
 
     if grammar_mode == 'approx_from_grammar':
       self.grammar = load_grammar_from_file(grammar_file)
-      with open('grammar_from_loading.json', 'w') as f:
-        json.dump(self.grammar, f)
     elif grammar_mode == 'from_data':
       with open(grammar_file) as f:
         self.grammar = json.load(f)
-        for head, productions in self.grammar.items():
-          for production in productions.keys():
-            production_tuple = tuple(production.split(' '))
-            print(head, production_tuple)
 
     self.insertion_map = self.load_map('additional_files/I.json')
     self.bigram_probabilities = self.load_map('additional_files/bigram_probabilities.json')
@@ -319,7 +313,8 @@ class CYK_Parser():
 
       if beam_candidates:          
         for neg_prob, (lhs, correction, backpointer) in beam_candidates:
-          if len(table_w_corrections[s][l][lhs])==0 or len(correction) <= len(table_w_corrections[s][l][lhs][0]):
+          # Only update T if candidates probability is higher and correction length is equal or shorter
+          if len(table_w_corrections[s][l][lhs])==0 or (-neg_prob > T[s][l][lhs] and len(correction) <= len(table_w_corrections[s][l][lhs][0])):
             T[s][l][lhs] = -neg_prob
             table_w_corrections[s][l][lhs] = (correction, backpointer)
     
@@ -351,8 +346,8 @@ class CYK_Parser():
       for s in range(len_input-l+1): # Start of span
         candidates = []
 
-        for A, productions in self.grammar.items():
-          for p in range(0,l+1): # Partition
+        for p in range(1,l): # Partition
+          for A, productions in self.grammar.items():
             for production, rule_prob in productions.items():
               production_arr = production.split(' ')
               if len(production_arr) == 2:
@@ -366,11 +361,13 @@ class CYK_Parser():
                     pass
                   else:
                     correction = self.correction_service.compose(p1,p2)
+
                     if T[s][l][A] == 0 or (T[s][l][A] > 0 and self.compare_corrections(correction, table_w_corrections[s][l][A][0], to_parse)):
                       total_prob = T[s][p][B] * T[s+p][l-p][C] * rule_prob
                       heapq.heappush(candidates, (-total_prob, (A, correction, (p, B, C))))
 
         update_tables_with_beam(candidates, s, l)
+        candidates = []
 
         # Update insertions
         for A, productions in self.grammar.items():
@@ -388,6 +385,7 @@ class CYK_Parser():
                   pass
                 else:
                   correction = self.correction_service.compose_for_insertion_forward(p_list, sigma, s+l)
+
                   if T[s][l][A] == 0 or (T[s][l][A] > 0 and self.compare_corrections(correction, table_w_corrections[s][l][A][0], to_parse)):
                     # Total prob is probability of B, probability of there being such an insertion for C, and probability of A->BC
                     total_prob = T[s][l][B] * self.correction_to_prob(sigma) * rule_prob
@@ -404,6 +402,7 @@ class CYK_Parser():
                   pass
                 else:
                   correction = self.correction_service.compose_for_insertion_backward(p_list, sigma, s)
+                  
                   if T[s][l][A] == 0 or (T[s][l][A] > 0 and self.compare_corrections(correction, table_w_corrections[s][l][A][0], to_parse)):
                     # Total prob is probability of there being such an insertion for B, probability of C, and probability of A->BC
                     total_prob = T[s][l][C] * self.correction_to_prob(sigma) * rule_prob
@@ -415,7 +414,7 @@ class CYK_Parser():
   
   def correct_single_block(self, block):
     if len(block) > 0:
-      T_with_corr, T_prob = self.parse_with_err_correction_beam(block)
+      T_with_corr, T_prob = self.parse_with_err_correction_beam(block)      
       return self.get_corrected_block(block, T_with_corr)
     return []
   
