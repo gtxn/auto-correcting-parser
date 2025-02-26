@@ -32,7 +32,8 @@ if __name__ == '__main__':
     print('Parsing...')
     T = []
     if beam_search_n > -1:
-      corrected_code = parser.correct_code_with_err_correction_beam_block(tokens_with_id)
+      # corrected_code = parser.correct_code_with_err_correction_beam_block(tokens_with_id)
+      corrected_code = parser.correct_code_with_err_correction_beam_block_optimised(tokens_with_id)
       corrected_final_code = reverse_lex(corrected_code, value_map, values_appeared)
       print()
       print(f'CORRECTED CODE\n{corrected_final_code}')

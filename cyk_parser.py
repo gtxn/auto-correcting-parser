@@ -314,7 +314,7 @@ class CYK_Parser():
       if beam_candidates:          
         for neg_prob, (lhs, correction, backpointer) in beam_candidates:
           # Only update T if candidates probability is higher and correction length is equal or shorter
-          if len(table_w_corrections[s][l][lhs])==0 or (-neg_prob > T[s][l][lhs] and len(correction) <= len(table_w_corrections[s][l][lhs][0])):
+          if len(table_w_corrections[s][l][lhs])==0 or (len(correction) < len(table_w_corrections[s][l][lhs][0])) or (len(correction) == len(table_w_corrections[s][l][lhs][0]) and -neg_prob > T[s][l][lhs]):
             T[s][l][lhs] = -neg_prob
             table_w_corrections[s][l][lhs] = (correction, backpointer)
     
@@ -362,6 +362,7 @@ class CYK_Parser():
                   else:
                     correction = self.correction_service.compose(p1,p2)
 
+                    # If current correction for non terminal is better than the previously saved one, we consider it
                     if T[s][l][A] == 0 or (T[s][l][A] > 0 and self.compare_corrections(correction, table_w_corrections[s][l][A][0], to_parse)):
                       total_prob = T[s][p][B] * T[s+p][l-p][C] * rule_prob
                       heapq.heappush(candidates, (-total_prob, (A, correction, (p, B, C))))
@@ -414,7 +415,7 @@ class CYK_Parser():
   
   def correct_single_block(self, block):
     if len(block) > 0:
-      T_with_corr, T_prob = self.parse_with_err_correction_beam(block)      
+      T_with_corr, T_prob = self.parse_with_err_correction_beam(block)
       return self.get_corrected_block(block, T_with_corr)
     return []
   
@@ -463,9 +464,13 @@ class CYK_Parser():
         while curr_block_i < len(blocks):
           updated_block = blocks[curr_block_i]
 
-          while curr_block_i < len(blocks)-1 and blocks[curr_block_i][-1][-1]+1 == blocks[curr_block_i+1][0][-1]:
-            updated_block += blocks[curr_block_i+1]
-            curr_block_i += 1
+          # Keep coalescing adjacent blocks together
+          while curr_block_i < len(blocks)-1:
+            if type(blocks[curr_block_i][-1][-1])==int and blocks[curr_block_i][-1][-1]+1 == blocks[curr_block_i+1][0][-1]:
+              updated_block += blocks[curr_block_i+1]
+              curr_block_i += 1
+            else:
+              break
 
           updated_blocks.append(updated_block)
           curr_block_i += 1
@@ -481,14 +486,94 @@ class CYK_Parser():
 
       print()
 
-      corrected_code = reconstruct_blocks(updated_corrected_blocks)[0]
+      corrected_code = reconstruct_blocks(updated_corrected_blocks)
 
       print()
       print('CORRECTED LEXED CODE --')
       print(corrected_code + [('ENDMARKER', -1)])
       return corrected_code + [('ENDMARKER', -1)]
   
-  # Optimise correction of many blocks by only running correction algorithm on blocks that are not correct
+  # Optimise block correction by only correcting blocks that are not right
+  def correct_code_with_err_correction_beam_block_optimised(self, to_parse):
+    is_valid, blocks_valid = self.is_parse_successful_parse_beam_block(to_parse)
+    
+    # If all blocks are valid, no need to do error correction
+    if is_valid:
+      return to_parse
+
+    blocks_collection = split_into_blocks(to_parse)
+    to_correct = []
+    for indent_index, indent_blocks_valid in enumerate(blocks_valid):
+      to_correct.append([])
+      for block_index, is_block_valid in enumerate(indent_blocks_valid):
+        if not is_block_valid:
+          to_correct[indent_index].append(blocks_collection[indent_index][block_index])
+        else:
+          # If the block is valid, we put a placeholder [] to make it easier when combining corrected and original blocks
+          to_correct[indent_index].append([])
+    
+    print(is_valid, blocks_valid)
+    print(to_correct)
+
+    with ProcessPoolExecutor(self.threads) as executor1:
+      if self.threads:
+        func = partial(self.correct_block_collection)
+        corrected_blocks = list(executor1.map(func, to_correct))
+      else:
+        # Correcting the blocks
+        corrected_blocks = []
+        for indent_level in range(len(to_correct)):
+          corrected_blocks.append([])
+
+        for indent_level in range(len(to_correct)-1, -1, -1):
+          blocks = to_correct[indent_level]
+        for block in blocks:
+          T_with_corr, T_prob = self.parse_with_err_correction_beam(block)
+          if T_with_corr:
+            print(f'correction: {T_with_corr[0][-1]["statements"][0]}')
+            corrected_blocks[indent_level].append(self.get_corrected_block(block, T_with_corr))
+
+      # Combining corrected blocks with original
+      for indent_index in range(len(blocks_collection)):
+        for block_index in range(len(blocks_collection[indent_index])):
+          # If there's a correction
+          if len(corrected_blocks[indent_index][block_index]) > 0:
+            blocks_collection[indent_index][block_index] = corrected_blocks[indent_index][block_index]
+
+      # Transforming transformed blocks so consecutive statements are combined
+      updated_corrected_blocks = []
+      for blocks in blocks_collection:
+        updated_blocks = []
+        curr_block_i = 0
+        while curr_block_i < len(blocks):
+          updated_block = blocks[curr_block_i]
+
+          # Keep coalescing adjacent blocks together
+          while curr_block_i < len(blocks)-1:
+            if type(blocks[curr_block_i][-1][-1])==int and blocks[curr_block_i][-1][-1]+1 == blocks[curr_block_i+1][0][-1]:
+              updated_block += blocks[curr_block_i+1]
+              curr_block_i += 1
+            else:
+              break
+
+          updated_blocks.append(updated_block)
+          curr_block_i += 1
+        
+        updated_corrected_blocks.append(updated_blocks)
+        
+      print('UPDATED BLOCKS --- ')
+      for i in range(len(updated_corrected_blocks)):
+        print (i)
+        for block in updated_corrected_blocks[i]:
+          print(block)
+        print()
+
+      corrected_code = reconstruct_blocks(updated_corrected_blocks)
+
+      print()
+      print('CORRECTED LEXED CODE --')
+      print(corrected_code + [('ENDMARKER', -1)])
+      return corrected_code + [('ENDMARKER', -1)]
 
   # Given a correction, figure out the probability
   def correction_to_prob(self, correction):
@@ -544,6 +629,7 @@ class CYK_Parser():
   def get_corrected_block(self, code, T):
     try: 
       corrected_code = self.correction_service.apply_correction(T[0][-1]['statements'][0], code)
+      print(f'code: {code}\ncorrection: {T[0][-1]['statements'][0]}')
     except:
       raise Exception(f'FAILED TO PARSE AS STATEMENT. Try raising the number of beams. \ncode failed: {code}')
 

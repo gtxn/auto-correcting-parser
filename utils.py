@@ -164,8 +164,9 @@ def split_into_blocks(lexed_code):
       b = b_indent[i]
       if len(b) > 0:
         to_append = b
-        # Coalesce 2 blocks if they are reliant
-        if i < len(b_indent)-2:
+        
+        # Keep coalescing 2 blocks if they are reliant
+        while i < len(b_indent)-2:
           next_b = b_indent[i+1]
           if len(next_b):
             is_reliant = False
@@ -173,8 +174,12 @@ def split_into_blocks(lexed_code):
               is_reliant = True
             
             if is_reliant:
-              to_append = b + next_b
+              to_append += next_b
               i += 1
+            else:
+              break
+          else:
+            break
         
         curr_indent.append(to_append)
       i += 1
@@ -214,7 +219,14 @@ def reconstruct_blocks(corrected_blocks):
           # Update length of replacement we made
           total_replacements += len(replacement)-1
 
-  return reconstructed_blocks[0]
+  # Flatten the statements at indent 0
+  reconstructed_code = [
+    x
+    for xs in reconstructed_blocks[0]
+    for x in xs
+  ]
+
+  return reconstructed_code
 
 def reverse_lex(lexed_code, value_map, values_appeared, tab_spaces=2):
   final_code = []
@@ -224,9 +236,14 @@ def reverse_lex(lexed_code, value_map, values_appeared, tab_spaces=2):
     final_line_code = []
     if token == 'NEWLINE':
       for (token2, _id2) in curr_line:
-        if token2 in ['NAME', 'NUMBER', 'FSTRING_MIDDLE']:
+        if token2 in ['NAME', 'NUMBER', 'FSTRING_MIDDLE', 'STRING']:
           if _id2 in value_map:
-            final_line_code.append(value_map[_id2])
+            if token2 == 'STRING':
+              final_line_code.append(F"'{value_map[_id2]}'")
+            elif token2 == 'FSTRING_MIDDLE':
+              final_line_code.append(F"f'{value_map[_id2]}'")
+            else:
+              final_line_code.append(value_map[_id2])
           else:
             final_line_code.append(values_appeared[token2][0])
         else:
