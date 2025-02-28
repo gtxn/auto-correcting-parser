@@ -204,7 +204,7 @@ class CYK_Parser():
         parsed_block_coll = []
         for indent in range(len(blocks_collection)):
           block_collection = blocks_collection[indent]
-          print('block collection', block_collection)
+          # print('block collection', block_collection)
           parsed_block_coll.append(self.parse_block_collection(block_collection))
       else:
           func = partial(self.parse_block_collection)
@@ -416,8 +416,6 @@ class CYK_Parser():
   def correct_single_block(self, block):
     if len(block) > 0:
       T_with_corr, T_prob = self.parse_with_err_correction_beam(block)
-      print('CORRECTED STMT', T_with_corr[0][-1]['statements'])
-      print('CORRECTED STMT', T_with_corr[0][-1]['statement'])
       return self.get_corrected_block(block, T_with_corr)
     return []
   
@@ -448,15 +446,14 @@ class CYK_Parser():
         for block in blocks:
           T_with_corr, T_prob = self.parse_with_err_correction_beam(block)
           if T_with_corr:
-            print(f'correction: {T_with_corr[0][-1]["statements"][0]}')
             corrected_blocks[indent_level].append(self.get_corrected_block(block, T_with_corr))
 
-      print('CORRECTED BLOCKS --- ')
-      for i in range(len(corrected_blocks)):
-        print (i)
-        for block in corrected_blocks[i]:
-          print(block)
-        print()
+      # print('CORRECTED BLOCKS --- ')
+      # for i in range(len(corrected_blocks)):
+      #   print (i)
+      #   for block in corrected_blocks[i]:
+      #     print(block)
+      #   print()
 
       # Transforming transformed blocks so consecutive statements are combined
       updated_corrected_blocks = []
@@ -631,7 +628,7 @@ class CYK_Parser():
   def get_corrected_block(self, code, T):
     try: 
       corrected_code = self.correction_service.apply_correction(T[0][-1]['statements'][0], code)
-      print(f'code: {code}\ncorrection: {T[0][-1]['statements'][0]}')
+      # print(f'code: {code}\ncorrection: {T[0][-1]['statements'][0]}')
     except:
       raise Exception(f'FAILED TO PARSE AS STATEMENT. Try raising the number of beams. \ncode failed: {code}')
 

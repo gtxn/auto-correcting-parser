@@ -27,7 +27,7 @@ class Lexer:
     self.current_char = None
     self.position = -1
     self.x_position = -1
-    self.current_logical_line = -1
+    self.current_logical_line = 0
     self.tab_spaces = tab_spaces
     self.prev_f = False # To tokenize f-strings
     self.values_appeared = defaultdict(list) # Values of all NAME and NUMBER that appear in code
@@ -74,7 +74,7 @@ class Lexer:
 
       elif self.current_char in DIGITS:
         num = self.number()
-        self.tokens.append(("NUMBER", num, (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line])))
+        self.tokens.append(("NUMBER", num, (self.x_position-1, self.logical_line_to_physical_line_map[self.current_logical_line])))
         self.values_appeared['NUMBER'].append(num)
       
       elif self.current_char in LETTERS or self.current_char == "_":
@@ -119,20 +119,22 @@ class Lexer:
       self.step()
 
     if id_str in KEYWORDS:
-      return (id_str, id_str, (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line]))
+      return (id_str, id_str, (self.x_position-1, self.logical_line_to_physical_line_map[self.current_logical_line]))
     if id_str in PREPROCESS_TOKENS:
-      to_return = id_str, id_str, (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line])
       if id_str == 'NEWLINE':
-        self.x_position = 0
+        self.x_position = -1
         self.current_logical_line += 1
-        print(self.current_logical_line, self.logical_line_to_physical_line_map)
+      elif id_str == 'INDENT':
+        self.x_position -= len('INDENT ')
+      elif id_str == 'DEDENT':
+        self.x_position -= len('DEDENT ')
+      to_return = id_str, id_str, (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line])
 
       return to_return
     
     self.values_appeared['NAME'].append(id_str)
     
-
-    return ("NAME", id_str, (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line]))
+    return ("NAME", id_str, (self.x_position-1, self.logical_line_to_physical_line_map[self.current_logical_line]))
 
   def operator(self):
     op = self.current_char
@@ -141,7 +143,7 @@ class Lexer:
     if self.current_char and (op + self.current_char) in OPERATORS:
       op += self.current_char
       self.step()
-    return (op, op, (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line]))
+    return (op, op, (self.x_position-1, self.logical_line_to_physical_line_map[self.current_logical_line]))
   
   def process_string(self):
     delimiter = self.current_char
@@ -161,7 +163,7 @@ class Lexer:
     # Step from closing delimiter
     self.step() 
 
-    return ("STRING", str_string, (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line]))
+    return ("STRING", str_string, (self.x_position-1, self.logical_line_to_physical_line_map[self.current_logical_line]))
 
   def preprocess(self):    
     # Split into logical lines
@@ -224,7 +226,7 @@ class Lexer:
     i = 0
     while i<len(logical_lines):
       curr_logical_line = logical_lines[i]
-      while logical_lines[i][-1] == 'DEDENT':
+      while logical_lines[i][-1] == ' DEDENT ':
         curr_logical_line += logical_lines[i+1]
         i += 1
       new_logical_lines.append(curr_logical_line)
@@ -253,29 +255,54 @@ class Lexer:
     curr_line = []
     curr_indent = 0
     logical_line_num = 0
+    curr_x_pos = 0
     for (token, _id, code_pos) in lexed_code:
       final_line_code = []
+      added_chars = 0
       if token == 'NEWLINE':
-        for (token2, _id2) in curr_line:
+        curr_x_pos = 0
+        for (token2, _id2, code_pos) in curr_line:
           # If we need to insert some value
           if token2 in ['NAME', 'NUMBER', 'FSTRING_MIDDLE', 'STRING']:
             if _id2 in value_map:
               if token2 == 'STRING':
-                final_line_code.append(F"'{value_map[_id2]}'")
+                to_append = F"'{value_map[_id2]}'"
               elif token2 == 'FSTRING_MIDDLE':
-                final_line_code.append(F"f'{value_map[_id2]}'")
+                to_append = F"f'{value_map[_id2]}'"
               else:
-                final_line_code.append(value_map[_id2])
+                to_append = value_map[_id2]
             else:
-              final_line_code.append(values_appeared[token2][0])
+              to_append = values_appeared[token2][0]
           else:
-            final_line_code.append(token2)
+            to_append = token2
+
+          if code_pos:
+            print(logical_line_num, code_pos[-1], to_append)
+            print(f'codepos: {code_pos[0]-len(to_append)+added_chars} | added chars: {added_chars} | curr x pos: {curr_x_pos} | toappend: {to_append}')
+
+          while len(code_pos) and code_pos[0]-len(to_append)+added_chars > curr_x_pos:
+            final_line_code.append(' ')
+            curr_x_pos += 1
+
+          final_line_code.append(to_append)
+
+          # Update x position
+          if len(code_pos):
+            curr_x_pos = code_pos[0]
+          else:
+            added_chars += len(to_append)
+            curr_x_pos += len(to_append)
+
+          # Update current line
+          if code_pos:
+            logical_line_num = code_pos[-1]
         
         # Account for lines difference
-        lines_diff = "\n" * (self.logical_line_to_physical_line_map[logical_line_num] - code_pos[-1] -1) if len(code_pos) else ''
-        logical_line_num += 1
+        lines_diff = "\n" * (code_pos[-1] - logical_line_num) if len(code_pos) else ''
+        # logical_line_num = code_pos[-1] if len(code_pos) else logical_line_num
 
-        final_line_code = lines_diff + ' ' * tab_spaces * curr_indent + ' '.join(final_line_code).strip() 
+        # final_line_code = lines_diff + ' ' * tab_spaces * curr_indent + ''.join(final_line_code)
+        final_line_code = lines_diff + ''.join(final_line_code)
         final_code.append(final_line_code)
         curr_line = []
       elif token == 'INDENT':
@@ -283,6 +310,6 @@ class Lexer:
       elif token == 'DEDENT':
         curr_indent -= 1
       else:
-        curr_line.append((token, _id))
+        curr_line.append((token, _id, code_pos))
 
     return '\n'.join(final_code)

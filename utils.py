@@ -185,12 +185,12 @@ def split_into_blocks(lexed_code):
 
     indent_block_map_update.append(curr_indent)
 
-  print('BLOCKS --')
-  for i, blocks in enumerate(indent_block_map_update):
-    print(i)
-    for b in blocks:
-      print(b)
-    print()
+  # print('BLOCKS --')
+  # for i, blocks in enumerate(indent_block_map_update):
+  #   print(i)
+  #   for b in blocks:
+  #     print(b)
+  #   print()
 
   return indent_block_map_update
 
