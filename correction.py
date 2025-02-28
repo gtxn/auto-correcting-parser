@@ -15,11 +15,11 @@ class Correction:
       if op == 'd':
         code_copy.pop(ind)
       elif op == 'i':
-        to_insert = (correction[2], uuid4())
+        to_insert = (correction[2], uuid4(), ())
         code_copy = code_copy[:ind] + [to_insert] + code_copy[ind:]
       else:
         to_replace = correction[2]
-        code_copy[ind] = (to_replace, uuid4())
+        code_copy[ind] = (to_replace, uuid4(), ())
     
     return code_copy
 

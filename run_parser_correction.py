@@ -2,7 +2,6 @@ from lexer import Lexer
 from cyk_parser import CYK_Parser
 from reverse_parser import Reverse_Parser
 import sys
-from utils import reverse_lex
 from uuid import UUID
 
 filename = sys.argv[1]
@@ -22,7 +21,7 @@ if __name__ == '__main__':
     
     # LEXING
     print('Lexing...')
-    tokens, values_appeared = lexer.tokenise()
+    tokens_with_code_pos, values_appeared = lexer.tokenise()
     tokens_with_id, value_map = lexer.get_id_mapped_tokens()
     tokens_with_id = tokens_with_id[:-1]
     print(f'CODE TO CORRECT\n{tokens_with_id}')
@@ -34,7 +33,7 @@ if __name__ == '__main__':
     if beam_search_n > -1:
       # corrected_code = parser.correct_code_with_err_correction_beam_block(tokens_with_id)
       corrected_code = parser.correct_code_with_err_correction_beam_block_optimised(tokens_with_id)
-      corrected_final_code = reverse_lex(corrected_code, value_map, values_appeared)
+      corrected_final_code = lexer.reverse_lex(corrected_code, value_map, values_appeared)
       print()
       print(f'CORRECTED CODE\n{corrected_final_code}')
       

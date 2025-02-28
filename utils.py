@@ -18,7 +18,6 @@ def load_grammar_from_file(file):
         continue
 
       line_to_consider = line.strip()
-      
       if re.match(r'(\w+):', line_to_consider):
         split_colon_arr = line_to_consider.split(':')
 
@@ -102,7 +101,7 @@ def split_into_blocks(lexed_code):
   curr_indent = 0
   
   # Initialise indent block map and indent map
-  for (token, _id) in lexed_code:
+  for (token, _id, code_pos) in lexed_code:
     if token == 'NEWLINE':
       indent_line_parallel_arr.append(curr_indent)
       indent_block_map[curr_indent] = [[]]
@@ -120,14 +119,14 @@ def split_into_blocks(lexed_code):
   prev_token_dedent = False
 
   # Adds to block map
-  for (token, _id) in lexed_code:
+  for (token, _id, code_pos) in lexed_code:
     if token == 'DEDENT':
       # Start new block
       indent_block_map[curr_indent].append([])
       curr_indent -= 1
 
       # Append dedent to end of indented block
-      indent_block_map[curr_indent][-1].append((token, _id))
+      indent_block_map[curr_indent][-1].append((token, _id, code_pos))
 
       # Start new dedent block
       indent_block_map[curr_indent].append([])
@@ -135,7 +134,7 @@ def split_into_blocks(lexed_code):
     elif token == 'NEWLINE':
       if not prev_token_dedent:
         # If we didn't just dedent, add the NEWLINE to current indent
-        indent_block_map[curr_indent][-1].append((token, _id))
+        indent_block_map[curr_indent][-1].append((token, _id, code_pos))
 
         # If the next line is at the same indent level we can split into a diff block
         if curr_line+1 < len(indent_line_parallel_arr) and indent_line_parallel_arr[curr_line+1] == curr_indent:
@@ -146,12 +145,12 @@ def split_into_blocks(lexed_code):
         
       curr_line += 1
     elif token == 'INDENT':
-      indent_block_map[curr_indent][-1].append((token, _id))
-      indent_block_map[curr_indent][-1].append(('STUB-BLOCK', _id+1))
+      indent_block_map[curr_indent][-1].append((token, _id, code_pos))
+      indent_block_map[curr_indent][-1].append(('STUB-BLOCK', _id+1, ()))
       curr_indent += 1
       prev_token_dedent = False
     else:
-      indent_block_map[curr_indent][-1].append((token, _id))
+      indent_block_map[curr_indent][-1].append((token, _id, code_pos))
       prev_token_dedent = False
 
   # Filter out [] at the end of some indents, and join reliant blocks
@@ -203,7 +202,7 @@ def reconstruct_blocks(corrected_blocks):
 
     for block_num, block in enumerate(blocks):
       total_replacements = 0 
-      for token_num, (token, _id) in enumerate(block):
+      for token_num, (token, _id, code_pos) in enumerate(block):
         # Tracks updated token number, incase we have multiple replacements
         updated_token_num = token_num + total_replacements
         if token == 'STUB-BLOCK':
@@ -227,36 +226,3 @@ def reconstruct_blocks(corrected_blocks):
   ]
 
   return reconstructed_code
-
-def reverse_lex(lexed_code, value_map, values_appeared, tab_spaces=2):
-  final_code = []
-  curr_line = []
-  curr_indent = 0
-  for (token, _id) in lexed_code:
-    final_line_code = []
-    if token == 'NEWLINE':
-      for (token2, _id2) in curr_line:
-        if token2 in ['NAME', 'NUMBER', 'FSTRING_MIDDLE', 'STRING']:
-          if _id2 in value_map:
-            if token2 == 'STRING':
-              final_line_code.append(F"'{value_map[_id2]}'")
-            elif token2 == 'FSTRING_MIDDLE':
-              final_line_code.append(F"f'{value_map[_id2]}'")
-            else:
-              final_line_code.append(value_map[_id2])
-          else:
-            final_line_code.append(values_appeared[token2][0])
-        else:
-          final_line_code.append(token2)
-        
-      final_line_code = ' ' * tab_spaces * curr_indent + ' '.join(final_line_code).strip() 
-      final_code.append(final_line_code)
-      curr_line = []
-    elif token == 'INDENT':
-      curr_indent += 1
-    elif token == 'DEDENT':
-      curr_indent -= 1
-    else:
-      curr_line.append((token, _id))
-
-  return '\n'.join(final_code)

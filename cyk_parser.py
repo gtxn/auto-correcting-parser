@@ -135,7 +135,7 @@ class CYK_Parser():
             T[s][l][lhs] = -neg_prob
             back[s][l][lhs] = backpointer
     
-    for i, (token, value) in enumerate(to_parse):
+    for i, (token, value, code_pos) in enumerate(to_parse):
       if token == 'STUB-BLOCK':
         T[i][1]['statements'] = 1
       else:
@@ -319,7 +319,7 @@ class CYK_Parser():
             table_w_corrections[s][l][lhs] = (correction, backpointer)
     
     # Update length 1
-    for i, (token, token_id) in enumerate(to_parse):
+    for i, (token, token_id, code_pos) in enumerate(to_parse):
       # If token is stub-block, we take it as a block
       if token == 'STUB-BLOCK':
         T[i][1]['statements'] = 1
@@ -416,6 +416,8 @@ class CYK_Parser():
   def correct_single_block(self, block):
     if len(block) > 0:
       T_with_corr, T_prob = self.parse_with_err_correction_beam(block)
+      print('CORRECTED STMT', T_with_corr[0][-1]['statements'])
+      print('CORRECTED STMT', T_with_corr[0][-1]['statement'])
       return self.get_corrected_block(block, T_with_corr)
     return []
   
@@ -490,8 +492,8 @@ class CYK_Parser():
 
       print()
       print('CORRECTED LEXED CODE --')
-      print(corrected_code + [('ENDMARKER', -1)])
-      return corrected_code + [('ENDMARKER', -1)]
+      print(corrected_code + [('ENDMARKER', -1, ())])
+      return corrected_code + [('ENDMARKER', -1, ())]
   
   # Optimise block correction by only correcting blocks that are not right
   def correct_code_with_err_correction_beam_block_optimised(self, to_parse):
@@ -572,8 +574,8 @@ class CYK_Parser():
 
       print()
       print('CORRECTED LEXED CODE --')
-      print(corrected_code + [('ENDMARKER', -1)])
-      return corrected_code + [('ENDMARKER', -1)]
+      print(corrected_code + [('ENDMARKER', -1, ())])
+      return corrected_code + [('ENDMARKER', -1, ())]
 
   # Given a correction, figure out the probability
   def correction_to_prob(self, correction):

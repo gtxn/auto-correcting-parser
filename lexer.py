@@ -21,10 +21,13 @@ operator_map = {
 class Lexer:
   def __init__(self, source_code, tab_spaces=2):
     self.source = source_code
+    self.logical_line_to_physical_line_map = [] # Keeps track of mapping between logical and physical lines
     self.preprocess()
     self.tokens = []
     self.current_char = None
     self.position = -1
+    self.x_position = -1
+    self.current_logical_line = -1
     self.tab_spaces = tab_spaces
     self.prev_f = False # To tokenize f-strings
     self.values_appeared = defaultdict(list) # Values of all NAME and NUMBER that appear in code
@@ -34,6 +37,7 @@ class Lexer:
   def step(self):
     self.position += 1
     self.current_char = self.source[self.position] if self.position < len(self.source) else None
+    self.x_position += 1
 
   def tokenise(self):
     while self.current_char is not None:
@@ -44,7 +48,7 @@ class Lexer:
         # TODO: deal with format string!! Currently just treating inside as normal string
         if self.prev_f:
           self.tokens.pop()
-          self.tokens.append(('FSTRING_START', 'FSTRING_START'))
+          self.tokens.append(('FSTRING_START', 'FSTRING_START', (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line])))
           delimiter = self.current_char
           str_string = ""
 
@@ -59,18 +63,18 @@ class Lexer:
           if not self.current_char:
             raise Exception(f"UNCLOSED {delimiter}")
           
-          self.tokens.append(("FSTRING_MIDDLE", str_string))
+          self.tokens.append(("FSTRING_MIDDLE", str_string, (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line])))
           
           # Step from closing delimiter
           self.step() 
 
-          self.tokens.append(("FSTRING_END", "FSTRING_END"))
+          self.tokens.append(("FSTRING_END", "FSTRING_END", (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line])))
         else:
           self.tokens.append(self.process_string())
 
       elif self.current_char in DIGITS:
         num = self.number()
-        self.tokens.append(("NUMBER", num))
+        self.tokens.append(("NUMBER", num, (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line])))
         self.values_appeared['NUMBER'].append(num)
       
       elif self.current_char in LETTERS or self.current_char == "_":
@@ -81,21 +85,22 @@ class Lexer:
         self.tokens.append(self.operator())
       
       elif self.current_char in DELIMITERS:
-        self.tokens.append((self.current_char, self.current_char))
+        self.tokens.append((self.current_char, self.current_char, (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line])))
         self.step()
       
       else:
         raise ValueError(f"Unexpected character: {self.current_char}")
 
     # self.tokens.append(('NEWLINE', 'NEWLINE'))
-    self.tokens.append(('ENDMARKER', 'ENDMARKER'))
+    self.tokens.append(('ENDMARKER', 'ENDMARKER', (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line])))
     return self.tokens, self.values_appeared
   
   def get_id_mapped_tokens(self):
     tokens_with_id = []
     value_map = defaultdict()
+
     for i, t in enumerate(self.tokens):
-      tokens_with_id.append((t[0], i))
+      tokens_with_id.append((t[0], i, t[-1]))
       value_map[i] = t[1]
 
     return tokens_with_id, value_map
@@ -114,12 +119,20 @@ class Lexer:
       self.step()
 
     if id_str in KEYWORDS:
-      return (id_str, id_str)
+      return (id_str, id_str, (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line]))
     if id_str in PREPROCESS_TOKENS:
-      return (id_str, id_str)
+      to_return = id_str, id_str, (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line])
+      if id_str == 'NEWLINE':
+        self.x_position = 0
+        self.current_logical_line += 1
+        print(self.current_logical_line, self.logical_line_to_physical_line_map)
+
+      return to_return
     
     self.values_appeared['NAME'].append(id_str)
-    return ("NAME", id_str)
+    
+
+    return ("NAME", id_str, (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line]))
 
   def operator(self):
     op = self.current_char
@@ -128,7 +141,7 @@ class Lexer:
     if self.current_char and (op + self.current_char) in OPERATORS:
       op += self.current_char
       self.step()
-    return (op, op)
+    return (op, op, (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line]))
   
   def process_string(self):
     delimiter = self.current_char
@@ -148,12 +161,14 @@ class Lexer:
     # Step from closing delimiter
     self.step() 
 
-    return ("STRING", str_string)
+    return ("STRING", str_string, (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line]))
 
   def preprocess(self):    
     # Split into logical lines
     logical_lines = []
     logical_line = ''
+    physical_line_num = 0
+
     for physical_line in self.source.split('\n'):
       if physical_line.strip().endswith('\\'):
         logical_line += physical_line.replace('\\', '')
@@ -162,9 +177,11 @@ class Lexer:
       elif physical_line.strip() and not physical_line.strip().startswith('#'):
         # If comment in the middle of a line, remove it 
         logical_line += physical_line.split('#')[0]
-        # source_code += logical_line + ' NEWLINE '
         logical_lines.append(logical_line)
         logical_line = ''
+        self.logical_line_to_physical_line_map.append(physical_line_num)
+
+      physical_line_num += 1
 
     # Calculate dedent and indents
     # Stack to keep track of indentations
@@ -211,17 +228,61 @@ class Lexer:
         curr_logical_line += logical_lines[i+1]
         i += 1
       new_logical_lines.append(curr_logical_line)
+
       curr_logical_line = []
       i += 1
 
+    # TODO: update the self.logical to physical line mapping to take care of NEWLINE 
     source = " NEWLINE ".join(new_logical_lines)
 
     # Dedent all the indents that were previously made
     if len(indent_stack) > 1:
       for _ in range(len(indent_stack)-1):
         source = source + ' NEWLINE DEDENT '
+        self.logical_line_to_physical_line_map.append(-1)
     elif indent_stack[-1] == 0:
       source = source + ' NEWLINE '
+      self.logical_line_to_physical_line_map.append(-1)
 
     print('added dedent ', source)
+    print(self.logical_line_to_physical_line_map)
     self.source = source
+
+  def reverse_lex(self, lexed_code, value_map, values_appeared, tab_spaces=2):
+    final_code = []
+    curr_line = []
+    curr_indent = 0
+    logical_line_num = 0
+    for (token, _id, code_pos) in lexed_code:
+      final_line_code = []
+      if token == 'NEWLINE':
+        for (token2, _id2) in curr_line:
+          # If we need to insert some value
+          if token2 in ['NAME', 'NUMBER', 'FSTRING_MIDDLE', 'STRING']:
+            if _id2 in value_map:
+              if token2 == 'STRING':
+                final_line_code.append(F"'{value_map[_id2]}'")
+              elif token2 == 'FSTRING_MIDDLE':
+                final_line_code.append(F"f'{value_map[_id2]}'")
+              else:
+                final_line_code.append(value_map[_id2])
+            else:
+              final_line_code.append(values_appeared[token2][0])
+          else:
+            final_line_code.append(token2)
+        
+        # Account for lines difference
+        lines_diff = "\n" * (self.logical_line_to_physical_line_map[logical_line_num] - code_pos[-1] -1) if len(code_pos) else ''
+        logical_line_num += 1
+
+        final_line_code = lines_diff + ' ' * tab_spaces * curr_indent + ' '.join(final_line_code).strip() 
+        final_code.append(final_line_code)
+        curr_line = []
+      elif token == 'INDENT':
+        curr_indent += 1
+      elif token == 'DEDENT':
+        curr_indent -= 1
+      else:
+        curr_line.append((token, _id))
+
+    return '\n'.join(final_code)
