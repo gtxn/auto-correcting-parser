@@ -18,6 +18,7 @@ operator_map = {
   '...': 'ELLIPSIS',
 }
 
+# TODO: fix the bug for block parsing with dedents not working
 class Lexer:
   def __init__(self, source_code, tab_spaces=2):
     self.source = source_code
@@ -89,7 +90,8 @@ class Lexer:
         self.step()
       
       else:
-        raise ValueError(f"Unexpected character: {self.current_char}")
+        self.step()
+        # raise ValueError(f"Unexpected character: {self.current_char}")
 
     # self.tokens.append(('NEWLINE', 'NEWLINE'))
     self.tokens.append(('ENDMARKER', 'ENDMARKER', (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line])))
@@ -125,9 +127,9 @@ class Lexer:
         self.x_position = -1
         self.current_logical_line += 1
       elif id_str == 'INDENT':
-        self.x_position -= len('INDENT ')
+        self.x_position -= len(' INDENT ')
       elif id_str == 'DEDENT':
-        self.x_position -= len('DEDENT ')
+        self.x_position -= len(' DEDENT ')
       to_return = id_str, id_str, (self.x_position, self.logical_line_to_physical_line_map[self.current_logical_line])
 
       return to_return
@@ -278,28 +280,27 @@ class Lexer:
 
           if code_pos:
             print(logical_line_num, code_pos[-1], to_append)
-            print(f'codepos: {code_pos[0]-len(to_append)+added_chars} | added chars: {added_chars} | curr x pos: {curr_x_pos} | toappend: {to_append}')
+            print(f'codepos: {code_pos[0]-len(to_append)+added_chars} | len_to_append: {len(to_append)} | added chars: {added_chars} | curr x pos: {curr_x_pos} | toappend: {to_append}')
 
-          while len(code_pos) and code_pos[0]-len(to_append)+added_chars > curr_x_pos:
-            final_line_code.append(' ')
-            curr_x_pos += 1
-
-          final_line_code.append(to_append)
+          # Pad start if its a new line
+          if code_pos[-1] >= logical_line_num:
+            while len(code_pos) and code_pos[0]-len(to_append)+added_chars > curr_x_pos:
+              final_line_code.append(' ')
+              curr_x_pos += 1
 
           # Update x position
           if len(code_pos):
             curr_x_pos = code_pos[0]
           else:
+            to_append = ' ' + to_append + ' '
             added_chars += len(to_append)
             curr_x_pos += len(to_append)
-
-          # Update current line
-          if code_pos:
-            logical_line_num = code_pos[-1]
         
+          final_line_code.append(to_append)
+
         # Account for lines difference
-        lines_diff = "\n" * (code_pos[-1] - logical_line_num) if len(code_pos) else ''
-        # logical_line_num = code_pos[-1] if len(code_pos) else logical_line_num
+        lines_diff = "\n" * (code_pos[-1] - logical_line_num -1) if len(code_pos) else ''
+        logical_line_num = max(code_pos[-1], logical_line_num+1) if len(code_pos) else logical_line_num+1
 
         # final_line_code = lines_diff + ' ' * tab_spaces * curr_indent + ''.join(final_line_code)
         final_line_code = lines_diff + ''.join(final_line_code)

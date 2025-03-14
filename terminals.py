@@ -1,4 +1,4 @@
-KEYWORDS = ["assert", "not", "class", "and", "finally", "if", "import", "in", "except", "for", "as", "def", "try", "raise", "else", "is", "pass", "while", "False", "continue", "with", "None","from", "elif", "or", "break","return",'True','False']
+KEYWORDS = ["assert", "not", "class", "and", "finally", "if", "import", "in", "except", "for", "as", "def", "try", "raise", "else", "is", "pass", "while", "False", "continue", "with", "None","from", "elif", "or", "break", "return", 'True', 'False']
 OPERATORS = [ "==", "+",  "//",  "...", "<",  "*", ">",  "!=",  "**",  "-", "%",  "~", "/",  "=", "&", "@", "!"]
 DELIMITERS = ["(", "{", ")", "]", ";", ":", "[", "}", ".", ","]
 WHITESPACE = {" ", "\t", "\n"}

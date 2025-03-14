@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 import subprocess
 from flask_cors import CORS
-from utils import reverse_lex
 from lexer import Lexer
 from cyk_parser import CYK_Parser
 
@@ -20,9 +19,10 @@ def run_code():
 
     try:
       print('Lexing...')
-      tokens, values_appeared = lexer.tokenise()
+      tokens_with_code_pos, values_appeared = lexer.tokenise()
       tokens_with_id, value_map = lexer.get_id_mapped_tokens()
       tokens_with_id = tokens_with_id[:-1]
+
       print(f'CODE TO CORRECT\n{tokens_with_id}')
       print()
       
@@ -30,8 +30,9 @@ def run_code():
       print('Parsing...')
       T = []
       if int(beam_search_n) > 0:
-        corrected_code = parser.correct_code_with_err_correction_beam_block(tokens_with_id)
-        corrected_final_code = reverse_lex(corrected_code, value_map, values_appeared)
+        corrected_code = parser.correct_code_with_err_correction_beam_block_optimised(tokens_with_id)
+        corrected_final_code = lexer.reverse_lex(corrected_code, value_map, values_appeared)
+
         print()
         print(f'CORRECTED CODE\n{corrected_final_code}')
         return jsonify({"output": corrected_final_code})

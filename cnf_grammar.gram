@@ -328,9 +328,9 @@ simple_stmt:
 	| primary genexp
 	| primary simple_stmt_11
 	| NAME
-	| 'True'
-	| 'False'
-	| 'None'
+	| True
+	| False
+	| None
 	| STRING
 	| NUMBER
 	| terminal_16 simple_stmt_13
@@ -972,9 +972,9 @@ with_item:
 	| primary genexp
 	| primary with_item_11
 	| NAME
-	| 'True'
-	| 'False'
-	| 'None'
+	| True
+	| False
+	| None
 	| STRING
 	| NUMBER
 	| terminal_16 with_item_13
@@ -1112,9 +1112,9 @@ expressions:
 	| primary genexp
 	| primary expressions_10
 	| NAME
-	| 'True'
-	| 'False'
-	| 'None'
+	| True
+	| False
+	| None
 	| STRING
 	| NUMBER
 	| terminal_16 expressions_12
@@ -1217,9 +1217,9 @@ expression:
 	| primary genexp
 	| primary expression_10
 	| NAME
-	| 'True'
-	| 'False'
-	| 'None'
+	| True
+	| False
+	| None
 	| STRING
 	| NUMBER
 	| terminal_16 expression_12
@@ -1316,9 +1316,9 @@ disjunction:
 	| primary genexp
 	| primary disjunction_7
 	| NAME
-	| 'True'
-	| 'False'
-	| 'None'
+	| True
+	| False
+	| None
 	| STRING
 	| NUMBER
 	| terminal_16 disjunction_9
@@ -1409,9 +1409,9 @@ conjunction:
 	| primary genexp
 	| primary conjunction_7
 	| NAME
-	| 'True'
-	| 'False'
-	| 'None'
+	| True
+	| False
+	| None
 	| STRING
 	| NUMBER
 	| terminal_16 conjunction_9
@@ -1497,9 +1497,9 @@ inversion:
 	| primary genexp
 	| primary inversion_7
 	| NAME
-	| 'True'
-	| 'False'
-	| 'None'
+	| True
+	| False
+	| None
 	| STRING
 	| NUMBER
 	| terminal_16 inversion_9
@@ -1579,9 +1579,9 @@ comparison:
 	| primary genexp
 	| primary comparison_7
 	| NAME
-	| 'True'
-	| 'False'
-	| 'None'
+	| True
+	| False
+	| None
 	| STRING
 	| NUMBER
 	| terminal_16 comparison_9
@@ -1681,9 +1681,9 @@ sum:
 	| primary genexp
 	| primary sum_7
 	| NAME
-	| 'True'
-	| 'False'
-	| 'None'
+	| True
+	| False
+	| None
 	| STRING
 	| NUMBER
 	| terminal_16 sum_9
@@ -1768,9 +1768,9 @@ term:
 	| primary genexp
 	| primary term_7
 	| NAME
-	| 'True'
-	| 'False'
-	| 'None'
+	| True
+	| False
+	| None
 	| STRING
 	| NUMBER
 	| terminal_16 term_9
@@ -1841,9 +1841,9 @@ factor:
 	| primary genexp
 	| primary factor_2
 	| NAME
-	| 'True'
-	| 'False'
-	| 'None'
+	| True
+	| False
+	| None
 	| STRING
 	| NUMBER
 	| terminal_16 factor_4
@@ -1901,9 +1901,9 @@ power:
 	| primary genexp
 	| primary power_2
 	| NAME
-	| 'True'
-	| 'False'
-	| 'None'
+	| True
+	| False
+	| None
 	| STRING
 	| NUMBER
 	| terminal_16 power_4
@@ -1960,9 +1960,9 @@ primary:
 	| primary genexp
 	| primary primary_1
 	| NAME
-	| 'True'
-	| 'False'
-	| 'None'
+	| True
+	| False
+	| None
 	| STRING
 	| NUMBER
 	| terminal_16 primary_3
@@ -2056,9 +2056,9 @@ slice_12: terminal_29 expression
 
 atom: 
 	| NAME
-	| 'True'
-	| 'False'
-	| 'None'
+	| True
+	| False
+	| None
 	| STRING
 	| NUMBER
 	| terminal_16 atom_0
@@ -2381,9 +2381,9 @@ t_primary:
 	| t_primary t_primary_1
 	| t_primary genexp
 	| NAME
-	| 'True'
-	| 'False'
-	| 'None'
+	| True
+	| False
+	| None
 	| STRING
 	| NUMBER
 	| terminal_16 t_primary_3
@@ -2528,9 +2528,9 @@ assignment_plus_continuation_1:
 	| primary genexp
 	| primary assignment_plus_continuation_1_11
 	| NAME
-	| 'True'
-	| 'False'
-	| 'None'
+	| True
+	| False
+	| None
 	| STRING
 	| NUMBER
 	| terminal_16 assignment_plus_continuation_1_13
